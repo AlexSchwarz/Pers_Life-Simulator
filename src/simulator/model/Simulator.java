@@ -57,7 +57,7 @@ public class Simulator {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        dataFile.deleteOnExit();
+        //dataFile.deleteOnExit();
     }
 
     private void logOrgCountData() {
