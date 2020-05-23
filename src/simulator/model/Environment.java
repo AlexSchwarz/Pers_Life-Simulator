@@ -107,6 +107,8 @@ public class Environment {
     }
 
     private void progressCarnivore(Carnivore carnivore) throws InvalidIdentifierException, InvalidPositionException {
+        //todo: for point of interest also use closest like with empty space magnitude calc
+        //-> enviroment filter list of ids close to organism based on energy. Give domain smaller list and say move to closest one.
         System.out.println("ENVIRONMENT: Attempting progression " + carnivore.getType() + " ID " + carnivore.getId());
         List<String> idsInRangeList = domain.getAllIDsInProximity(carnivore.getId(), carnivore.getSightRange());
         boolean searchingForTarget = true;
