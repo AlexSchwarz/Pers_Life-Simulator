@@ -3,7 +3,7 @@ package model.organism;
 public class Plant extends Organism {
 
     public Plant() {
-        super();
+        super(OrganismType.PLANT);
     }
 
     @Override
@@ -15,11 +15,6 @@ public class Plant extends Organism {
             orgString = getOrganismID() + "P";
         }
         return orgString;
-    }
-
-    @Override
-    public String getType() {
-        return "Plant";
     }
 
     @Override

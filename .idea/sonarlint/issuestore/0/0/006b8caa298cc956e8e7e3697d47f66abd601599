@@ -1,23 +1,12 @@
 
-Z	java:S106q"9Replace this use of System.out or System.err by a logger.(šûã‡şÿÿÿÿ8 åä£.
-U	java:S1065"9Replace this use of System.out or System.err by a logger.(›¾ÊÔ8ôãµ£.
-X	java:S125f"<This block of commented-out lines of code should be removed.(Ğ†ÒÍ8ÇÔ££.
-r	java:S116"QRename this field "HEIGHT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(µÆÜùÿÿÿÿ8«šŠ££.
-Z	java:S106\"9Replace this use of System.out or System.err by a logger.(‘‹©°üÿÿÿÿ8ö“Ê £.
-U	java:S106e"9Replace this use of System.out or System.err by a logger.(Õ½õ°8Ô¶££.
-U	java:S106V"9Replace this use of System.out or System.err by a logger.(åºÁ8îîî¢£.
-2
-java:S1700"Rename field "domain"(Æã›8¤Õ”£.
-£
-java:S1186l"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(úëˆìùÿÿÿÿ8“«€µ£.
-Z	java:S106D"9Replace this use of System.out or System.err by a logger.(Ìû¹åşÿÿÿÿ8™¼ğ¢£.
-c
-java:S10754"ARefactor your code to get this URI from a customizable parameter.(ÍÒŒ•ûÿÿÿÿ8ôãµ£.
-s
-java:S1450"WRemove the "dataFile" field and declare it as a local variable in the relevant methods.(³Ğà8ôãµ£.
-W
-java:S1144l"5Remove this unused private "registerOrganism" method.(úëˆìùÿÿÿÿ8“«€µ£.
-l	java:S116"PRename this field "WIDTH" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ã»¼¡8«šŠ££.
-H
-java:S1172l"&Remove these unused method parameters.(úëˆìùÿÿÿÿ8“«€µ£.
-Z	java:S106Q"9Replace this use of System.out or System.err by a logger.(©şêÜúÿÿÿÿ8”˜¶¢£.
+T	java:S106P"9Replace this use of System.out or System.err by a logger.(Ë¨ğJ8‚óâñ£.
+[	java:S106"9Replace this use of System.out or System.err by a logger.(šûã‡şÿÿÿÿ8¼ñŠò£.
+U	java:S106,"9Replace this use of System.out or System.err by a logger.(´ßÉ8“ø¨ğ£.
+U	java:S106E"9Replace this use of System.out or System.err by a logger.(Õ½õ°8“ø¨ğ£.
+Z	java:S106^"9Replace this use of System.out or System.err by a logger.(Öñø‰ıÿÿÿÿ8²—Îô£.
+U	java:S106W"9Replace this use of System.out or System.err by a logger.(Ğœ‰8²—Îô£.
+U	java:S106?"9Replace this use of System.out or System.err by a logger.(è»«£8“ø¨ğ£.
+Z	java:S1069"9Replace this use of System.out or System.err by a logger.(î±ÂĞùÿÿÿÿ8“ø¨ğ£.
+Z	java:S1066"9Replace this use of System.out or System.err by a logger.(©şêÜúÿÿÿÿ8“ø¨ğ£.
+O
+java:S1135q"2Complete the task associated to this TODO comment.(ó®ÂÄ8­Øşö£.

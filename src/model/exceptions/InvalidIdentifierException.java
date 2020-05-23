@@ -1,11 +1,11 @@
 package model.exceptions;
 
-public class InvalidPositionException extends SimulatorException{
+public class InvalidIdentifierException extends SimulatorException{
     /**
      * Default constructor
      * @param message Error message
      */
-    public InvalidPositionException(String message) {
+    public InvalidIdentifierException(String message) {
         super(message);
     }
 }

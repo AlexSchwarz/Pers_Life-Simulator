@@ -3,7 +3,7 @@ package model.organism;
 public class Herbivore extends Animal {
 
     public Herbivore() {
-        super();
+        super(OrganismType.HERBIVORE);
     }
 
     @Override
@@ -15,11 +15,6 @@ public class Herbivore extends Animal {
             orgString = getOrganismID() + "H";
         }
         return orgString;
-    }
-
-    @Override
-    public String getType() {
-        return "Herbivore";
     }
 
     @Override

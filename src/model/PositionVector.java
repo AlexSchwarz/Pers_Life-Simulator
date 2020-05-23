@@ -92,7 +92,7 @@ public final class PositionVector {
 
     @Override
     public String toString() {
-        return "(X:" + x + ", Y:" + y + ")";
+        return "[" + x + "," + y + "]";
     }
 }
 

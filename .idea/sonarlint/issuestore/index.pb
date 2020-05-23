@@ -23,3 +23,11 @@ H
 src/model/Simulator.java,d\b\db50ed7d7cbb055375ff7273a8655d2bb50e2029
 E
 src/model/Domain.java,0\0\006b8caa298cc956e8e7e3697d47f66abd601599
+a
+1src/model/exceptions/SimulatorErrorException.java,0\d\0db9f8296fde41c5aff0b37d3ffd6447d728897b
+d
+4src/model/exceptions/InvalidIdentifierException.java,6\7\6735800b8e53ad4af338a9a2149886f8110848dd
+e
+5src/model/exceptions/IllegalEnvironmentException.java,a\5\a571d7eb41dd6efc5df95db58ae794310bf0eb0b
+J
+src/model/Environment.java,0\f\0f7f52c94590546458429e3d3efa6d56b1fb2226

@@ -1,7 +1,6 @@
 package model.exceptions;
 
 public abstract class SimulatorException extends Exception{
-
     /**
      * Default constructor
      * @param message Error message
