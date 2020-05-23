@@ -64,7 +64,7 @@ public class Environment {
         while(counter < orgCount) {
             Organism organism = newOrganismFromType(type);
             organisms.add(organism);
-            domain.initOrganismPlacement(organism.getOrganismID());
+            domain.initOrganismPlacement(organism.getId());
             counter ++;
         }
         System.out.println("ENVIRONMENT: -> Init " + orgCount + " " + type + " successful");
@@ -77,9 +77,11 @@ public class Environment {
             if(organism instanceof Plant) {
                 progressPlant(organism);
             } else if (organism instanceof  Carnivore) {
-                progressCarnivore(organism);
+                Carnivore carnivore = (Carnivore) organism;
+                progressCarnivore(carnivore);
             } else if (organism instanceof Herbivore) {
-                progressHerbivore(organism);
+                Herbivore herbivore = (Herbivore) organism;
+                progressHerbivore(herbivore);
             } else {
                 throw new IllegalEnvironmentException("Object not instance of any Organism");
             }
@@ -89,34 +91,31 @@ public class Environment {
     }
 
     private void progressPlant(Organism organism) {
-        System.out.println("ENVIRONMENT: Attempting progression " + organism.getType() + " ID " + organism.getOrganismID());
+        System.out.println("ENVIRONMENT: Attempting progression " + organism.getType() + " ID " + organism.getId());
         System.out.println("ENVIRONMENT: Progression organism ended");
     }
 
-    private void progressCarnivore(Organism organism) throws InvalidIdentifierException, InvalidPositionException {
-        System.out.println("ENVIRONMENT: Attempting progression " + organism.getType() + " ID " + organism.getOrganismID());
-        //getAllIDs in range. iterate. if org owner of id of interes, move that way, else random
-        boolean searchingTarget = true;
-        List<String> iDsInRange = domain.getAllIDsInRange(organism.getOrganismID(), 4);
-        for(String id : iDsInRange) {
-            if(getOrganismFromId(id) instanceof Herbivore) {
-                domain.moveOrganism(organism.getOrganismID(), domain.getEmptySpacesInRange(id, 1).get(0));
-                searchingTarget = false;
+    private void progressCarnivore(Carnivore carnivore) throws InvalidIdentifierException, InvalidPositionException {
+        System.out.println("ENVIRONMENT: Attempting progression " + carnivore.getType() + " ID " + carnivore.getId());
+        List<String> idsInRangeList = domain.getAllIDsInProximity(carnivore.getId(), carnivore.getSightRange());
+        boolean searchingForTarget = true;
+        System.out.println("ENVIRONMENT: Searching through IDs...");
+        for(String targetId : idsInRangeList) {
+            if(searchingForTarget && getOrganismFromId(targetId) instanceof Herbivore) {
+                System.out.println("ENVIRONMENT: Found Herbivore ID " + targetId);
+                domain.moveInProxToTarget(carnivore.getId(), targetId, carnivore.getMovementRange());
+                searchingForTarget = false;
             }
         }
-        if(searchingTarget) {
-            List<PositionVector> emptySpaces = domain.getEmptySpacesInRange(organism.getOrganismID(), 4);
-            Collections.shuffle(emptySpaces);
-            domain.moveOrganism(organism.getOrganismID(), emptySpaces.get(0));
+        if(searchingForTarget) {
+            System.out.println("ENVIRONMENT: Found not point of interest. Random Move");
+            domain.moveOrgRandomInRange(carnivore.getId(), carnivore.getMovementRange());
         }
-        System.out.println("ENVIRONMENT: Progression organism ended");
     }
 
-    private void progressHerbivore(Organism organism) throws InvalidIdentifierException, InvalidPositionException {
-        System.out.println("ENVIRONMENT: Attempting progression " + organism.getType() + " ID " + organism.getOrganismID());
-        List<PositionVector> emptySpaces = domain.getEmptySpacesInRange(organism.getOrganismID(), RANGE);
-        Collections.shuffle(emptySpaces);
-        //domain.moveOrganism(organism.getOrganismID(), emptySpaces.get(0));
+    private void progressHerbivore(Herbivore herbivore) throws InvalidIdentifierException, InvalidPositionException {
+        System.out.println("ENVIRONMENT: Attempting progression " + herbivore.getType() + " ID " + herbivore.getId());
+        domain.moveOrgRandomInRange(herbivore.getId(), herbivore.getMovementRange());
         System.out.println("ENVIRONMENT: Progression organism ended");
     }
 
@@ -124,7 +123,7 @@ public class Environment {
         Organism foundOrganism = null;
         boolean searching = true;
         for(Organism organism : organisms) {
-            if(organism.getOrganismID().equals(identifier)) {
+            if(organism.getId().equals(identifier)) {
                 foundOrganism = organism;
                 searching = false;
             }
@@ -156,7 +155,7 @@ public class Environment {
     }
 
     public String convertOrgToCSV(Organism organism, PositionVector positionVector) {
-        return String.format("%s;%s;%s", organism.getOrganismID(), organism.getType(), positionVector.toString());
+        return String.format("%s;%s;%s", organism.getId(), organism.getType(), positionVector.toString());
     }
 
     public void printDomain() {

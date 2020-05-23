@@ -9,17 +9,17 @@ public class Plant extends Organism {
     @Override
     public String toString() {
         String orgString;
-        if(Integer.parseInt(getOrganismID()) < 10) {
-            orgString = "0" + getOrganismID() + "P";
+        if(Integer.parseInt(getId()) < 10) {
+            orgString = "0" + getId() + "P";
         }else {
-            orgString = getOrganismID() + "P";
+            orgString = getId() + "P";
         }
         return orgString;
     }
 
     @Override
     public String[] getDataArray() {
-        String id = super.getOrganismID();
+        String id = super.getId();
         String type = "Plant";
         String position = "NO_POSITION";
         String[] dataArray = {id, type, position};

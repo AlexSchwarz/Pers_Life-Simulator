@@ -51,6 +51,13 @@ public final class PositionVector {
         return (vectorA.getY() * vectorB.getY()) + (vectorA.getX() * vectorB.getX());
     }
 
+    public static double magnitude(final PositionVector vector) {
+        double i = Math.pow(vector.getX(), 2);
+        double j = Math.pow(vector.getY(), 2);
+        double mag = Math.sqrt(i+j);
+        return mag;
+    }
+
     public PositionVector(final int x, final int y) {
         this.y = y;
         this.x = x;

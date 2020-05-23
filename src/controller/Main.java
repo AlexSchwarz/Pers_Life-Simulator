@@ -6,21 +6,11 @@ public class Main {
 
     public static void main(String[] args) {
         Simulator simulator = new Simulator();
-        simulator.progressSimulation();
-        simulator.progressSimulation();
-        simulator.progressSimulation();
-        simulator.progressSimulation();
-        simulator.progressSimulation();
-        simulator.progressSimulation();
-        simulator.progressSimulation();
-        simulator.progressSimulation();
-        simulator.progressSimulation();
-        simulator.progressSimulation();
-        simulator.progressSimulation();
-        simulator.progressSimulation();
-        simulator.progressSimulation();
-        simulator.progressSimulation();
-        simulator.progressSimulation();
-        simulator.progressSimulation();
+        int counter = 0;
+        int maxDays = 100;
+        while (counter < maxDays) {
+            simulator.progressSimulation();
+            counter++;
+        }
     }
 }

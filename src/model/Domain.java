@@ -1,5 +1,6 @@
 package model;
 
+import javafx.geometry.Pos;
 import model.exceptions.IllegalEnvironmentException;
 import model.exceptions.InvalidIdentifierException;
 import model.exceptions.InvalidPositionException;
@@ -61,37 +62,44 @@ public class Domain {
         Objects.requireNonNull(position);
         Objects.requireNonNull(identifier);
         System.out.println("DOMAIN: Attempting set ID " + identifier + " at " + position + "...");
-        int x = position.getX();
-        int y = position.getY();
-        if(stringRepDomain[y][x].equals(BLANK)) {
-            if (x < size && y < size) {
-                stringRepDomain[y][x] = identifier;
-                System.out.println("DOMAIN: -> Set successful");
-            } else {
-                throw new InvalidPositionException("DOMAIN: Position: " + position + " exceeds boarder limit");
-            }
-        }else {
-            throw new InvalidPositionException("DOMAIN: Position: " + position + " is taken by " + stringRepDomain[y][x]);
+        String content = getContentFromPosition(position);
+        if(content.equals(BLANK)) {
+            stringRepDomain[position.getY()][position.getX()] = identifier;
+            System.out.println("DOMAIN: -> Set successful");
+        } else {
+            throw new InvalidPositionException("Error: Position: " + position + " is taken by " + content);
         }
     }
 
-    private void removeOrganism(String identifier) throws InvalidIdentifierException {
+    private String getContentFromPosition(PositionVector pos) throws InvalidPositionException {
+        Objects.requireNonNull(pos);
+        String foundContent;
+        int x = pos.getX();
+        int y = pos.getY();
+        if(x>=0 && x<size && y>=0 && y<size) {
+            foundContent = stringRepDomain[y][x];
+        }else {
+            throw new InvalidPositionException("Error: Position: Position " + pos + " exceeds boarder limit");
+        }
+        return foundContent;
+    }
+
+    public void removeOrganism(String identifier) throws InvalidIdentifierException {
         Objects.requireNonNull(identifier);
         System.out.println("DOMAIN: Attempting remove ID " + identifier + "...");
         PositionVector pos = getPosFromId(identifier);
         stringRepDomain[pos.getY()][pos.getX()] = BLANK;
+        System.out.println("DOMAIN: -> Removal ID " + identifier + " successful");
     }
 
-    public PositionVector getPosFromId(String identifier) throws InvalidIdentifierException {
+    private PositionVector getPosFromId(String identifier) throws InvalidIdentifierException {
         Objects.requireNonNull(identifier);
-        System.out.println("DOMAIN: Attempting get Pos from ID " + identifier + "...");
         PositionVector positionVector = null;
         boolean searching = true;
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
                 if(stringRepDomain[i][j].equals(identifier)) {
                     positionVector = new PositionVector(j, i);
-                    System.out.println("DOMAIN: -> Get Pos successful");
                     searching = false;
                 }
             }
@@ -103,30 +111,50 @@ public class Domain {
         return positionVector;
     }
 
-    public List<String> getAllIDsInRange(String identifier, int range) throws InvalidIdentifierException {
+    public List<String> getAllIDsInProximity(String identifier, int proximity) throws InvalidIdentifierException {
+        System.out.println("DOMAIN: Get all IDs in " + proximity + " prox to ID " + identifier);
         List<String> idList = new ArrayList<>();
         PositionVector pos = getPosFromId(identifier);
         int x = pos.getX();
         int y = pos.getY();
-        for(int i = y-range; i <= y+range; i++) {
-            for (int j = x - range; j <= x + range; j++) {
-                //todo: replace with getContentFromPos tryCatch
-                if(i >= 0 && i < size && j >= 0 && j < size && !stringRepDomain[i][j].equals(BLANK) && !stringRepDomain[i][j].equals(identifier)) {
+        for(int i = y-proximity; i <= y+proximity; i++) {
+            for (int j = x-proximity; j <= x+proximity; j++) {
+                if(i >= 0 && i < size && j >= 0 && j < size && !stringRepDomain[i][j].equals(BLANK)) {
                     idList.add(stringRepDomain[i][j]);
+                    idList.remove(identifier);
                 }
             }
         }
+        System.out.println("DOMAIN: Found these IDs " + idList);
+        Collections.shuffle(idList);
         return idList;
     }
 
-    public List<PositionVector> getEmptySpacesInRange(String identifier, int range) throws InvalidIdentifierException {
+    public void moveInProxToTarget(String identifier, String targetId, int proximity) throws InvalidIdentifierException, InvalidPositionException {
+        System.out.println("DOMAIN: Attempting move ID " + identifier + " to target " + targetId + " with prox " + proximity + "...");
+        PositionVector orgPos = getPosFromId(identifier);
+        PositionVector targetPos = getPosFromId(targetId);
+        PositionVector foundPos = orgPos;
+        double shortestDistance = PositionVector.magnitude(PositionVector.subtract(targetPos, orgPos));
+        List<PositionVector> emptySpacesInProx = getEmptySpacesInProximity(identifier, proximity);
+        for(PositionVector emptyPos : emptySpacesInProx) {
+            double distance = PositionVector.magnitude(PositionVector.subtract(targetPos, emptyPos));
+            if( distance < shortestDistance) {
+                foundPos = emptyPos;
+                shortestDistance = distance;
+            }
+        }
+        moveOrganism(identifier, foundPos);
+    }
+
+    private List<PositionVector> getEmptySpacesInProximity(String identifier, int proximity) throws InvalidIdentifierException {
         List<PositionVector> posList = new ArrayList<>();
         PositionVector pos = getPosFromId(identifier);
         int x = pos.getX();
         int y = pos.getY();
-        for(int i = y-range; i <= y+range; i++) {
-            for (int j = x - range; j <= x + range; j++) {
-                if(i >= 0 && i < size && j >= 0 && j < size && stringRepDomain[i][j].equals(BLANK)) {
+        for(int i = y-proximity; i <= y+proximity; i++) {
+            for (int j = x - proximity; j <= x + proximity; j++) {
+                if(i >= 0 && i < size && j >= 0 && j < size && i != y && j != x && stringRepDomain[i][j].equals(BLANK)) {
                     posList.add(new PositionVector(j, i));
                 }
             }
@@ -134,9 +162,21 @@ public class Domain {
         return posList;
     }
 
-    public void moveOrganism(String identifier, PositionVector pos) throws InvalidIdentifierException, InvalidPositionException {
+    private void moveOrganism(String identifier, PositionVector pos) throws InvalidIdentifierException, InvalidPositionException {
+        System.out.println("DOMAIN: Move ID " + identifier + " to " + pos);
         removeOrganism(identifier);
         setOrganism(identifier, pos);
+    }
+
+    public void moveOrgRandomInRange(String identifier, int proximity) throws InvalidIdentifierException, InvalidPositionException {
+        System.out.println("DOMAIN: Random move ID " + identifier + " in prox " + proximity);
+        List<PositionVector> emptySpacesInProx = getEmptySpacesInProximity(identifier, proximity);
+        if(!emptySpacesInProx.isEmpty()) {
+            Collections.shuffle(emptySpacesInProx);
+            moveOrganism(identifier, emptySpacesInProx.get(0));
+        }else {
+            System.out.println("DOMAIN: No empty space in prox, no move");
+        }
     }
 
     public void printDomain() {

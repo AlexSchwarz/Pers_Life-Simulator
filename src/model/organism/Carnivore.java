@@ -1,25 +1,27 @@
 package model.organism;
 
+import model.Config;
+
 public class Carnivore extends Animal {
 
     public Carnivore() {
-        super(OrganismType.CARNIVORE);
+        super(OrganismType.CARNIVORE, Config.CARNIVORE_SIGHT, Config.CARNIVORE_MOVEMENT);
     }
 
     @Override
     public String toString() {
         String orgString;
-        if(Integer.parseInt(getOrganismID()) < 10) {
-            orgString = "0" + getOrganismID() + "C";
+        if(Integer.parseInt(getId()) < 10) {
+            orgString = "0" + getId() + "C";
         }else {
-            orgString = getOrganismID() + "C";
+            orgString = getId() + "C";
         }
         return orgString;
     }
 
     @Override
     public String[] getDataArray() {
-        String id = super.getOrganismID();
+        String id = super.getId();
         String type = "Carnivore";
         String position = "NO_POSITION";
         String[] dataArray = {id, type, position};

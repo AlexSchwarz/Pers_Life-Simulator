@@ -18,8 +18,8 @@ public class Simulator {
     public Simulator() {
         System.out.println("SIMULATOR: Attempting init simulation...");
         try {
-            environment = new Environment(15,0,1,5);
-            initDataFile();
+            environment = new Environment(30,3,4,10);
+            //initDataFile();
             environment.printDomain();
             System.out.println("SIMULATOR: -> Simulation init successful");
         } catch (IllegalEnvironmentException e) {
@@ -37,7 +37,7 @@ public class Simulator {
             e.printStackTrace();
         }
         //environment.printDomain();
-        logOrgCountData();
+        //logOrgCountData();
         System.out.println("SIMULATOR: Simulation day " + currentDayCount + " ended");
         currentDayCount++;
     }

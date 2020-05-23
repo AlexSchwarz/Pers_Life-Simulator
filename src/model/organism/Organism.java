@@ -12,7 +12,7 @@ public abstract class Organism {
         this.type = type;
     }
 
-    public String getOrganismID() {
+    public String getId() {
         return organismID;
     }
 
