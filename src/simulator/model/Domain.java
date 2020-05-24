@@ -60,11 +60,9 @@ public class Domain {
     private void setOrganism(String identifier, PositionVector position) throws InvalidPositionException {
         Objects.requireNonNull(position);
         Objects.requireNonNull(identifier);
-        System.out.println("DOMAIN: Attempting set ID " + identifier + " at " + position + "...");
         String content = getContentFromPosition(position);
         if(content.equals(BLANK)) {
             stringRepDomain[position.getY()][position.getX()] = identifier;
-            System.out.println("DOMAIN: -> Set successful");
         } else {
             throw new InvalidPositionException("Error: Position: " + position + " is taken by " + content);
         }
@@ -85,10 +83,8 @@ public class Domain {
 
     public void removeOrganism(String identifier) throws InvalidIdentifierException {
         Objects.requireNonNull(identifier);
-        System.out.println("DOMAIN: Attempting remove ID " + identifier + "...");
         PositionVector pos = getPosFromId(identifier);
         stringRepDomain[pos.getY()][pos.getX()] = BLANK;
-        System.out.println("DOMAIN: -> Removal ID " + identifier + " successful");
     }
 
     private PositionVector getPosFromId(String identifier) throws InvalidIdentifierException {
@@ -111,7 +107,6 @@ public class Domain {
     }
 
     public List<String> getAllIDsInProximity(String identifier, int proximity) throws InvalidIdentifierException {
-        System.out.println("DOMAIN: Get all IDs in " + proximity + " prox to ID " + identifier);
         List<String> idList = new ArrayList<>();
         PositionVector pos = getPosFromId(identifier);
         int x = pos.getX();
@@ -124,7 +119,7 @@ public class Domain {
                 }
             }
         }
-        System.out.println("DOMAIN: Found these IDs " + idList);
+        System.out.println("DOMAIN: Found IDs " + idList + " in " + proximity + " prox to " + identifier);
         Collections.shuffle(idList);
         return idList;
     }
@@ -162,10 +157,9 @@ public class Domain {
     }
 
     private void moveOrganism(String identifier, PositionVector pos) throws InvalidIdentifierException, InvalidPositionException {
-        System.out.println("DOMAIN: Attempting move ID " + identifier + " to " + pos + "...");
         removeOrganism(identifier);
         setOrganism(identifier, pos);
-        System.out.println("DOMAIN: -> Move successful");
+        System.out.println("DOMAIN: Moved ID " + identifier + " to " + pos);
     }
 
     public void moveOrgRandomInRange(String identifier, int proximity) throws InvalidIdentifierException, InvalidPositionException {

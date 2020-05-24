@@ -34,7 +34,7 @@ public class Simulator {
         } catch (IllegalEnvironmentException | InvalidIdentifierException | InvalidPositionException e) {
             e.printStackTrace();
         } catch (EnvironmentCycleCompleteException e) {
-            System.out.println("SIMULATOR: Simulation day " + currentDayCount + " ended");
+            System.out.println("SIMULATOR: Simulation day " + currentDayCount + " ended ********************");
             //logOrgCountData();
             currentDayCount++;
 

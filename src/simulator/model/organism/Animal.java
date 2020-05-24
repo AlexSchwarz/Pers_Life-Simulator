@@ -12,12 +12,26 @@ public abstract class Animal extends Organism {
     private int energyLevel;
     private int maxEnergyLevel;
 
-    public Animal(OrganismType type, int sightRange, int movementRange, int energyLevel) {
+    public Animal(OrganismType type, int sightRange, int movementRange, int maxEnergyLevel, int energyLevel) {
         super(type);
         this.sightRange = sightRange;
         this.movementRange = movementRange;
-        this.maxEnergyLevel = energyLevel;
-        this.energyLevel = maxEnergyLevel;
+        this.maxEnergyLevel = maxEnergyLevel;
+        this.energyLevel = energyLevel;
+    }
+
+    public enum Action {
+        MOVE_TO, RUN_FROM, FEED_ON, MATE_WITH, NO_ACTION;;
+
+        String id = "-1";
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
     }
 
     public int getAge() {
@@ -58,9 +72,7 @@ public abstract class Animal extends Organism {
         }
     }
 
-    public abstract Organism feed(List<Organism> orgsInActionProx) throws NoAnimalActionException;
+    public abstract Action interact(List<Organism> orgsInActionProx);
 
-    public abstract Animal mate(List<Organism> orgsInActionProx) throws NoAnimalActionException;
-
-    public abstract String move(List<Organism> orgsInSightProx) throws NoAnimalActionException;
+    public abstract Action move(List<Organism> orgsInSightProx);
 }

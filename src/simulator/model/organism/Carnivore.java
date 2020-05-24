@@ -5,11 +5,12 @@ import simulator.model.exceptions.NoAnimalActionException;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class Carnivore extends Animal {
 
     public Carnivore() {
-        super(OrganismType.CARNIVORE, Config.CARNIVORE_SIGHT, Config.CARNIVORE_MOVEMENT, Config.CARNIVORE_ENERGYLEVEL);
+        super(OrganismType.CARNIVORE, Config.CARNIVORE_SIGHT, Config.CARNIVORE_MOVEMENT, Config.CARNIVORE_MAX_ENERGYLEVEL, Config.CARNIVORE_START_ENERGYLEVEL);
     }
 
     @Override
@@ -33,65 +34,43 @@ public class Carnivore extends Animal {
     }
 
     @Override
-    public Organism feed(List<Organism> orgsInActionProx) throws NoAnimalActionException {
-        System.out.println("CARNIVORE: " + getId() + " Attempting feed...");
-        System.out.println("CARNIVORE: Searching through IDs...");
-        Organism foundOrg = null;
-        boolean searching = true;
-        for(Organism organism : orgsInActionProx) {
-            if(searching && organism instanceof Herbivore) {
-                foundOrg = organism;
-                System.out.println("CARNIVORE: Found Herbivore ID " + organism.getId());
-                searching = false;
-            }
+    public Action interact(List<Organism> orgsInActionProx) {
+        System.out.println("CARNIVORE: ID" + getId() + " Energy " + getEnergyLevel() + " Attempting interaction...");
+        Action interaction;
+        if(getEnergyLevel() > 7) {
+            interaction = findFromType(orgsInActionProx, Action.MATE_WITH, OrganismType.CARNIVORE);
+        }else {
+            interaction = findFromType(orgsInActionProx, Action.FEED_ON, OrganismType.HERBIVORE);
         }
-        if(searching) {
-            System.out.println("CARNIVORE: No point of Interest found");
-            throw new NoAnimalActionException("No Action");
-        }
-        Objects.requireNonNull(foundOrg);
-        return foundOrg;
+        return  interaction;
     }
 
     @Override
-    public Animal mate(List<Organism> orgsInActionProx) throws NoAnimalActionException{
-        System.out.println("CARNIVORE: " + getId() + " Attempting mate...");
-        System.out.println("CARNIVORE: Searching through IDs...");
-        Animal foundOrg = null;
-        boolean searching = true;
-        for(Organism organism : orgsInActionProx) {
-            if(searching && organism instanceof Carnivore) {
-                foundOrg = (Animal) organism;
-                System.out.println("CARNIVORE: Found Herbivore ID " + organism.getId());
-                searching = false;
-            }
+    public Action move(List<Organism> orgsInSightProx) {
+        System.out.println("CARNIVORE: ID" + getId() + " Energy " + getEnergyLevel() + " Attempting move...");
+        Action move;
+        if(getEnergyLevel() > 7) {
+            move = findFromType(orgsInSightProx, Action.MOVE_TO, OrganismType.CARNIVORE);
+        }else {
+            move = findFromType(orgsInSightProx, Action.MOVE_TO, OrganismType.HERBIVORE);
         }
-        if(searching) {
-            System.out.println("CARNIVORE: No point of Interest found");
-            throw new NoAnimalActionException("No Action");
-        }
-        Objects.requireNonNull(foundOrg);
-        return foundOrg;
+        return move;
     }
 
-    @Override
-    public String move(List<Organism> orgsInSightProx) throws NoAnimalActionException{
-        System.out.println("CARNIVORE: " + getId() + " Attempting move...");
-        System.out.println("CARNIVORE: Searching through IDs...");
-        String foundOrg = null;
+    private Action findFromType(List<Organism> orgsInProx, Action action, OrganismType orgType) {
         boolean searching = true;
-        for(Organism organism : orgsInSightProx) {
-            if(searching && organism instanceof Herbivore) {
-                foundOrg = organism.getId();
-                System.out.println("CARNIVORE: Found Herbivore ID " + organism.getId());
+        System.out.println("CARNIVORE: Checking given IDs " + orgsInProx + " for match of action " + action);
+        for(Organism organism : orgsInProx) {
+            if(searching && organism.getType().equals(orgType)) {
+                action.setId(organism.getId());
+                System.out.println("CARNIVORE: Found " + organism.getType() + " ID " + organism.getId());
                 searching = false;
             }
         }
         if(searching) {
-            System.out.println("CARNIVORE: No point of Interest found");
-            throw new NoAnimalActionException("No Action");
+            action = Action.NO_ACTION;
+            System.out.println("CARNIVORE: Found no point of interest");
         }
-        Objects.requireNonNull(foundOrg);
-        return foundOrg;
+        return action;
     }
 }

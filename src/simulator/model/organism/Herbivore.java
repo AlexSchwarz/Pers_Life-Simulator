@@ -8,7 +8,7 @@ import java.util.List;
 public class Herbivore extends Animal {
 
     public Herbivore() {
-        super(OrganismType.HERBIVORE, Config.HERBIVORE_SIGHT, Config.HERBIVORE_MOVEMENT, Config.HERBIVORE_ENERGYLEVEL);
+        super(OrganismType.HERBIVORE, Config.HERBIVORE_SIGHT, Config.HERBIVORE_MOVEMENT, Config.HERBIVORE_ENERGYLEVEL, Config.HERBIVORE_ENERGYLEVEL);
     }
 
     @Override
@@ -32,29 +32,29 @@ public class Herbivore extends Animal {
     }
 
     @Override
-    public Organism feed(List<Organism> orgsInActionProx) throws NoAnimalActionException{
-        throw new NoAnimalActionException("No action");
+    public Action interact(List<Organism> orgsInActionProx) {
+        return Action.NO_ACTION;
     }
 
     @Override
-    public Animal mate(List<Organism> orgsInActionProx) throws NoAnimalActionException{
-        throw new NoAnimalActionException("No action");
+    public Action move(List<Organism> orgsInSightProx) {
+        return Action.NO_ACTION;
     }
 
-    @Override
-    public String move(List<Organism> orgsInSightProx) throws NoAnimalActionException {
-        System.out.println("HERBIVORE: Searching through IDs...");
-        String foundOrg = null;
+    private Action findFromType(List<Organism> orgsInProx, Action action, OrganismType orgType) {
         boolean searching = true;
-        for(Organism organism : orgsInSightProx) {
-            if(searching && organism instanceof Plant) {
-                foundOrg = organism.getId();
+        System.out.println("HERBIVORE: Checking given IDs " + orgsInProx);
+        for(Organism organism : orgsInProx) {
+            if(searching && organism.getType().equals(orgType)) {
+                action.setId(organism.getId());
+                System.out.println("HERBIVORE: Found " + organism.getType() + " ID " + organism.getId());
                 searching = false;
             }
         }
         if(searching) {
-            throw new NoAnimalActionException("No Action");
+            action = Action.NO_ACTION;
+            System.out.println("HERBIVORE: Found no point of interest");
         }
-        return foundOrg;
+        return action;
     }
 }
