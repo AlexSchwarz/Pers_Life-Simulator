@@ -1,6 +1,7 @@
 package simulator.model.organism;
 
-import java.util.ArrayList;
+import simulator.model.exceptions.NoAnimalActionException;
+
 import java.util.List;
 
 public abstract class Animal extends Organism {
@@ -9,12 +10,14 @@ public abstract class Animal extends Organism {
     private final int sightRange;
     private final int movementRange;
     private int energyLevel;
+    private int maxEnergyLevel;
 
     public Animal(OrganismType type, int sightRange, int movementRange, int energyLevel) {
         super(type);
         this.sightRange = sightRange;
         this.movementRange = movementRange;
-        this.energyLevel = energyLevel;
+        this.maxEnergyLevel = energyLevel;
+        this.energyLevel = maxEnergyLevel;
     }
 
     public int getAge() {
@@ -32,4 +35,32 @@ public abstract class Animal extends Organism {
     public int getMovementRange() {
         return movementRange;
     }
+
+    public int getEnergyLevel() {
+        return energyLevel;
+    }
+
+    public void decreaseEnergyLevel(int energyAmount) {
+        if(energyAmount >= 0) {
+            int newEnergy = energyLevel - energyAmount;
+            energyLevel = Math.max(newEnergy, 0);
+        } else {
+            throw new IllegalArgumentException("Energy amount may not be negative");
+        }
+    }
+
+    public void increaseEnergyLevel(int energyAmount) {
+        if(energyAmount >= 0) {
+            int newEnergy = energyLevel + energyAmount;
+            energyLevel = Math.min(newEnergy, maxEnergyLevel);
+        } else {
+            throw new IllegalArgumentException("Energy amount may not be negative");
+        }
+    }
+
+    public abstract Organism feed(List<Organism> orgsInActionProx) throws NoAnimalActionException;
+
+    public abstract Animal mate(List<Organism> orgsInActionProx) throws NoAnimalActionException;
+
+    public abstract String move(List<Organism> orgsInSightProx) throws NoAnimalActionException;
 }

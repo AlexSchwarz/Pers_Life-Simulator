@@ -162,9 +162,10 @@ public class Domain {
     }
 
     private void moveOrganism(String identifier, PositionVector pos) throws InvalidIdentifierException, InvalidPositionException {
-        System.out.println("DOMAIN: Move ID " + identifier + " to " + pos);
+        System.out.println("DOMAIN: Attempting move ID " + identifier + " to " + pos + "...");
         removeOrganism(identifier);
         setOrganism(identifier, pos);
+        System.out.println("DOMAIN: -> Move successful");
     }
 
     public void moveOrgRandomInRange(String identifier, int proximity) throws InvalidIdentifierException, InvalidPositionException {

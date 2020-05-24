@@ -1,8 +1,8 @@
 package simulator.model.organism;
 
 import simulator.model.Config;
+import simulator.model.exceptions.NoAnimalActionException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Herbivore extends Animal {
@@ -29,5 +29,32 @@ public class Herbivore extends Animal {
         String position = "NO_POSITION";
         String[] dataArray = {id, type, position};
         return dataArray;
+    }
+
+    @Override
+    public Organism feed(List<Organism> orgsInActionProx) throws NoAnimalActionException{
+        throw new NoAnimalActionException("No action");
+    }
+
+    @Override
+    public Animal mate(List<Organism> orgsInActionProx) throws NoAnimalActionException{
+        throw new NoAnimalActionException("No action");
+    }
+
+    @Override
+    public String move(List<Organism> orgsInSightProx) throws NoAnimalActionException {
+        System.out.println("HERBIVORE: Searching through IDs...");
+        String foundOrg = null;
+        boolean searching = true;
+        for(Organism organism : orgsInSightProx) {
+            if(searching && organism instanceof Plant) {
+                foundOrg = organism.getId();
+                searching = false;
+            }
+        }
+        if(searching) {
+            throw new NoAnimalActionException("No Action");
+        }
+        return foundOrg;
     }
 }

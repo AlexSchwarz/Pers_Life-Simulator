@@ -68,12 +68,12 @@ public class Environment {
     public void progressEnvironmentByOrganism() throws IllegalEnvironmentException, InvalidIdentifierException, InvalidPositionException, EnvironmentCycleCompleteException {
         Organism organism = currentOrganism;
         Objects.requireNonNull(organism);
+        System.out.println("ENVIRONMENT: Progress ID " + organism.getId());
         if(organism instanceof Plant) {
             progressPlant(organism);
-        } else if (organism instanceof Carnivore) {
-            progressCarnivore((Carnivore) organism);
-        } else if (organism instanceof Herbivore) {
-             progressHerbivore((Herbivore) organism);
+        } else if (organism instanceof Animal) {
+            animalMove((Animal) organism);
+            animalAction((Animal) organism);
         } else {
             throw new IllegalEnvironmentException("Object not instance of any concrete organism");
         }
@@ -98,30 +98,50 @@ public class Environment {
         System.out.println("ENVIRONMENT: Progression organism ended");
     }
 
-    private void progressCarnivore(Carnivore carnivore) throws InvalidIdentifierException, InvalidPositionException {
+    private void animalMove(Animal animal) throws InvalidIdentifierException, InvalidPositionException {
         //todo: for point of interest also use closest like with empty space magnitude calc
         //-> enviroment filter list of ids close to organism based on energy. Give domain smaller list and say move to closest one.
-        System.out.println("ENVIRONMENT: Attempting progression " + carnivore.getType() + " ID " + carnivore.getId());
-        List<String> idsInRangeList = domain.getAllIDsInProximity(carnivore.getId(), carnivore.getSightRange());
-        boolean searchingForTarget = true;
-        System.out.println("ENVIRONMENT: Searching through IDs...");
-        for(String targetId : idsInRangeList) {
-            if(searchingForTarget && getOrganismFromId(targetId) instanceof Herbivore) {
-                System.out.println("ENVIRONMENT: Found Herbivore ID " + targetId);
-                domain.moveInProxToTarget(carnivore.getId(), targetId, carnivore.getMovementRange());
-                searchingForTarget = false;
-            }
-        }
-        if(searchingForTarget) {
+        List<Organism> orgMoveList = convertToOrgList(domain.getAllIDsInProximity(animal.getId(), animal.getSightRange()));
+        try {
+            System.out.println("ENVIRONMENT: Attempting move " + animal.getType() + " ID " + animal.getId());
+            domain.moveInProxToTarget(animal.getId(), animal.move(orgMoveList), animal.getMovementRange());
+        } catch (NoAnimalActionException e) {
             System.out.println("ENVIRONMENT: Found not point of interest. Random Move");
-            domain.moveOrgRandomInRange(carnivore.getId(), carnivore.getMovementRange());
+            domain.moveOrgRandomInRange(animal.getId(), animal.getMovementRange());
         }
     }
 
-    private void progressHerbivore(Herbivore herbivore) throws InvalidIdentifierException, InvalidPositionException {
-        System.out.println("ENVIRONMENT: Attempting progression " + herbivore.getType() + " ID " + herbivore.getId());
-        domain.moveOrgRandomInRange(herbivore.getId(), herbivore.getMovementRange());
-        System.out.println("ENVIRONMENT: Progression organism ended");
+    private void animalAction(Animal animal) throws InvalidIdentifierException {
+        System.out.println("ENVIRONMENT: Attempting action " + animal.getType() + " ID " + animal.getId());
+        List<Organism> orgActionList = convertToOrgList(domain.getAllIDsInProximity(animal.getId(), INTERACTION_RANGE));
+        try {
+            Organism orgToFeedOn = animal.feed(orgActionList);
+            feedAnimal(animal, orgToFeedOn);
+        } catch (NoAnimalActionException e) {
+            System.out.println("ENVIRONMENT: No action");
+        }
+        try {
+            Animal orgToMate = animal.mate(orgActionList);
+            mateAnimal(animal, orgToMate);
+        } catch (NoAnimalActionException e) {
+            System.out.println("ENVIRONMENT: No action");
+        }
+    }
+
+    private List<Organism> convertToOrgList(List<String> idList) throws InvalidIdentifierException {
+        List<Organism> orgList = new ArrayList<>();
+        for(String id : idList) {
+            orgList.add(getOrganismFromId(id));
+        }
+        return orgList;
+    }
+
+    private void feedAnimal(Animal animal, Organism orgToFeedOn) {
+        System.out.println("FEED");
+    }
+
+    private void mateAnimal(Animal animal, Animal animalToMate) {
+        System.out.println("MATE");
     }
 
     private Organism getOrganismFromId(String identifier) throws InvalidIdentifierException {

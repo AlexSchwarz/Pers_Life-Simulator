@@ -19,7 +19,7 @@ public class Simulator {
             initDataFile();
             environment = new Environment(Config.SIZE,Config.PLANT_COUNT,Config.HERBIVORE_COUNT,Config.CARNIVORE_COUNT);
             System.out.println("SIMULATOR: -> Simulation init successful");
-            logOrgCountData();
+            //logOrgCountData();
             currentDayCount++;
         } catch (IllegalEnvironmentException e) {
             e.printStackTrace();
@@ -35,7 +35,7 @@ public class Simulator {
             e.printStackTrace();
         } catch (EnvironmentCycleCompleteException e) {
             System.out.println("SIMULATOR: Simulation day " + currentDayCount + " ended");
-            logOrgCountData();
+            //logOrgCountData();
             currentDayCount++;
 
         }
