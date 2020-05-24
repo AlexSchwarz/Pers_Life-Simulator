@@ -1,34 +1,26 @@
 package simulator.model;
 
-import simulator.model.exceptions.IllegalEnvironmentException;
-import simulator.model.exceptions.InvalidIdentifierException;
-import simulator.model.exceptions.InvalidPositionException;
-import simulator.model.exceptions.SimulatorErrorException;
-import simulator.model.organism.Carnivore;
-import simulator.model.organism.Herbivore;
-import simulator.model.organism.Organism;
-import simulator.model.organism.Plant;
+import simulator.model.exceptions.*;
+import simulator.model.organism.*;
 
 import java.util.*;
 
 public class Environment {
 
-    private static final int RANGE = 1;
-    private final int maxOrganisms;
+    private static final int INTERACTION_RANGE = 1;
     private List<Organism> organisms = new ArrayList<>();
     private Organism currentOrganism;
     private Domain domain;
 
     public Environment(int size, int plantCount, int herbivoreCount, int carnivoreCount) throws IllegalEnvironmentException {
-        maxOrganisms = size*size;
+        validateOrganismCount(plantCount, herbivoreCount, carnivoreCount, size);
         domain = new Domain(size);
-        validateOrganismCount(plantCount, herbivoreCount, carnivoreCount);
         initOrganismsStart(plantCount, herbivoreCount, carnivoreCount);
         currentOrganism = organisms.get(0);
     }
 
-    private void validateOrganismCount(int orgCount1, int orgCount2, int orgCount3) throws IllegalEnvironmentException {
-        if(orgCount1 < 0 || orgCount2 < 0 || orgCount3 < 0 || orgCount1+orgCount2+orgCount3 > maxOrganisms) {
+    private void validateOrganismCount(int orgCount1, int orgCount2, int orgCount3, int size) throws IllegalEnvironmentException {
+        if(orgCount1 < 0 || orgCount2 < 0 || orgCount3 < 0 || orgCount1+orgCount2+orgCount3 > size*size) {
             throw new IllegalEnvironmentException("Invalid organism count: " + orgCount1 + " " + orgCount2 + " " + orgCount3);
         }
     }
@@ -73,30 +65,30 @@ public class Environment {
         System.out.println("ENVIRONMENT: -> Init " + orgCount + " " + type + " successful");
     }
 
-    public void progressEnvironment() throws IllegalEnvironmentException, InvalidIdentifierException, InvalidPositionException, SimulatorErrorException {
+    public void progressEnvironmentByOrganism() throws IllegalEnvironmentException, InvalidIdentifierException, InvalidPositionException, EnvironmentCycleCompleteException {
         Organism organism = currentOrganism;
         Objects.requireNonNull(organism);
         if(organism instanceof Plant) {
             progressPlant(organism);
-        } else if (organism instanceof  Carnivore) {
-            Carnivore carnivore = (Carnivore) organism;
-            progressCarnivore(carnivore);
+        } else if (organism instanceof Carnivore) {
+            progressCarnivore((Carnivore) organism);
         } else if (organism instanceof Herbivore) {
-            Herbivore herbivore = (Herbivore) organism;
-            progressHerbivore(herbivore);
+             progressHerbivore((Herbivore) organism);
         } else {
-            throw new IllegalEnvironmentException("Object not instance of any Organism");
+            throw new IllegalEnvironmentException("Object not instance of any concrete organism");
         }
         switchNextOrganism();
     }
 
-    private void switchNextOrganism() throws SimulatorErrorException {
-        if(!organisms.isEmpty()) {
+    private void switchNextOrganism() throws EnvironmentCycleCompleteException, IllegalEnvironmentException {
+        if(organisms.isEmpty()) {
+            throw new IllegalEnvironmentException("No organisms left in environment");
+        } else {
             try {
                 currentOrganism = organisms.get(organisms.indexOf(currentOrganism) + 1);
             } catch (IndexOutOfBoundsException e) {
                 currentOrganism = organisms.get(0);
-                throw new SimulatorErrorException("next day");
+                throw new EnvironmentCycleCompleteException("Full organism cycle completed");
             }
         }
     }

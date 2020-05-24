@@ -21,6 +21,7 @@ public abstract class Organism {
     public OrganismType getType() {
         return type;
     }
+
     public abstract String[] getDataArray();
 
     public enum OrganismType {

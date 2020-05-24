@@ -1,9 +1,6 @@
 package simulator.model;
 
-import simulator.model.exceptions.IllegalEnvironmentException;
-import simulator.model.exceptions.InvalidIdentifierException;
-import simulator.model.exceptions.InvalidPositionException;
-import simulator.model.exceptions.SimulatorErrorException;
+import simulator.model.exceptions.*;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,7 +17,7 @@ public class Simulator {
         System.out.println("SIMULATOR: Attempting init simulation...");
         try {
             initDataFile();
-            environment = new Environment(30,1,2,5);
+            environment = new Environment(Config.SIZE,Config.PLANT_COUNT,Config.HERBIVORE_COUNT,Config.CARNIVORE_COUNT);
             System.out.println("SIMULATOR: -> Simulation init successful");
             logOrgCountData();
             currentDayCount++;
@@ -33,11 +30,10 @@ public class Simulator {
     public void progressSimulation() {
         System.out.println("SIMULATOR: Continue simulation day " + currentDayCount + "...");
         try {
-            environment.progressEnvironment();
-            //environment.printDomain();
+            environment.progressEnvironmentByOrganism();
         } catch (IllegalEnvironmentException | InvalidIdentifierException | InvalidPositionException e) {
             e.printStackTrace();
-        } catch (SimulatorErrorException e) {
+        } catch (EnvironmentCycleCompleteException e) {
             System.out.println("SIMULATOR: Simulation day " + currentDayCount + " ended");
             logOrgCountData();
             currentDayCount++;

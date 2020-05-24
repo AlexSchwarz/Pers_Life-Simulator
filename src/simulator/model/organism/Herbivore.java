@@ -2,10 +2,13 @@ package simulator.model.organism;
 
 import simulator.model.Config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Herbivore extends Animal {
 
     public Herbivore() {
-        super(OrganismType.HERBIVORE, Config.HERBIVORE_SIGHT, Config.HERBIVORE_MOVEMENT);
+        super(OrganismType.HERBIVORE, Config.HERBIVORE_SIGHT, Config.HERBIVORE_MOVEMENT, Config.HERBIVORE_ENERGYLEVEL);
     }
 
     @Override

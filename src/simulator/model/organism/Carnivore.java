@@ -2,10 +2,13 @@ package simulator.model.organism;
 
 import simulator.model.Config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Carnivore extends Animal {
 
     public Carnivore() {
-        super(OrganismType.CARNIVORE, Config.CARNIVORE_SIGHT, Config.CARNIVORE_MOVEMENT);
+        super(OrganismType.CARNIVORE, Config.CARNIVORE_SIGHT, Config.CARNIVORE_MOVEMENT, Config.CARNIVORE_ENERGYLEVEL);
     }
 
     @Override
