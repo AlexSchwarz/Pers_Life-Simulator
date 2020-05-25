@@ -3,6 +3,7 @@ package simulator.model;
 import simulator.model.exceptions.IllegalEnvironmentException;
 import simulator.model.exceptions.InvalidIdentifierException;
 import simulator.model.exceptions.InvalidPositionException;
+import simulator.model.organism.Organism;
 
 import java.util.*;
 
@@ -124,10 +125,10 @@ public class Domain {
         return idList;
     }
 
-    public void moveInProxToTarget(String identifier, String targetId, int proximity) throws InvalidIdentifierException, InvalidPositionException {
-        System.out.println("DOMAIN: Attempting move ID " + identifier + " to target " + targetId + " with prox " + proximity + "...");
+    public void moveInProxToClosestTarget(String identifier, List<String> targetList, int proximity) throws InvalidIdentifierException, InvalidPositionException {
+        System.out.println("DOMAIN: Attempting move ID " + identifier + " to targets " + targetList + " with prox " + proximity + "...");
         PositionVector orgPos = getPosFromId(identifier);
-        PositionVector targetPos = getPosFromId(targetId);
+        PositionVector targetPos = getClosestTarget(targetList, orgPos);
         PositionVector foundPos = orgPos;
         double shortestDistance = PositionVector.magnitude(PositionVector.subtract(targetPos, orgPos));
         List<PositionVector> emptySpacesInProx = getEmptySpacesInProximity(identifier, proximity);
@@ -138,7 +139,23 @@ public class Domain {
                 shortestDistance = distance;
             }
         }
+        System.out.println("DOMAIN: Found closest empty Pos " + foundPos);
         moveOrganism(identifier, foundPos);
+    }
+
+    private PositionVector getClosestTarget(List<String> targetList, PositionVector pos) throws InvalidIdentifierException, InvalidPositionException {
+        PositionVector foundPos = pos;
+        double shortestDistance = size;
+        for(String id : targetList) {
+            PositionVector idPos = getPosFromId(id);
+            double distance = PositionVector.magnitude(PositionVector.subtract(pos, idPos));
+            if( distance < shortestDistance) {
+                foundPos = idPos;
+                shortestDistance = distance;
+            }
+        }
+        System.out.println("DOMAIN: Found closest ID " + getContentFromPosition(foundPos) + " at " + foundPos);
+        return foundPos;
     }
 
     private List<PositionVector> getEmptySpacesInProximity(String identifier, int proximity) throws InvalidIdentifierException {

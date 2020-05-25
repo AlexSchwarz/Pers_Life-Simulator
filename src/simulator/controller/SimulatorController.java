@@ -9,6 +9,8 @@ import simulator.model.PositionVector;
 import simulator.model.Simulator;
 import simulator.model.exceptions.InvalidPositionException;
 
+import java.util.concurrent.TimeUnit;
+
 public class SimulatorController {
     @FXML GridPane GridPaneDomain;
     @FXML Button ButtonInitSim;
@@ -20,6 +22,7 @@ public class SimulatorController {
     public void initialize() {
         setEmptyArray();
         updateGridPane();
+        ButtonStepSim.setDisable(true);
     }
 
     private void setEmptyArray() {
@@ -32,6 +35,7 @@ public class SimulatorController {
 
     @FXML
     public void initSim() throws InvalidPositionException {
+        ButtonStepSim.setDisable(false);
         simulator = new Simulator();
         removeLables();
         updateArray();
@@ -39,7 +43,7 @@ public class SimulatorController {
     }
 
     @FXML
-    public void stepSim() throws InvalidPositionException {
+    public void stepSim() throws InvalidPositionException, InterruptedException {
         simulator.progressSimulation();
         removeLables();
         updateArray();

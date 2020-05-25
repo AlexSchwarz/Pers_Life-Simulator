@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class Simulator {
 
@@ -27,7 +28,7 @@ public class Simulator {
         }
     }
 
-    public void progressSimulation() {
+    public void progressSimulation() throws InterruptedException {
         System.out.println("SIMULATOR: Continue simulation day " + currentDayCount + "...");
         try {
             environment.progressEnvironmentByOrganism();

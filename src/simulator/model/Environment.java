@@ -104,15 +104,15 @@ public class Environment {
         //-> enviroment filter list of ids close to organism based on energy. Give domain smaller list and say move to closest one.
         System.out.println("ENVIRONMENT: Handling move " + animal.getType() + " " + animal.getId() + "...");
         List<Organism> orgMoveList = convertToOrgList(domain.getAllIDsInProximity(animal.getId(), animal.getSightRange()));
-        Animal.Action move = animal.move(orgMoveList);
-        System.out.println("ENVIRONMENT: Received " + move + " " + move.getId());
+        Animal.Move move = animal.move(orgMoveList);
+        System.out.println("ENVIRONMENT: Received " + move + " " + move.getIdList());
         switch(move) {
             case MOVE_TO:
-                domain.moveInProxToTarget(animal.getId(), move.getId(), animal.getMovementRange());
+                domain.moveInProxToClosestTarget(animal.getId(), move.getIdList(), animal.getMovementRange());
                 break;
             case RUN_FROM:
                 break;
-            case NO_ACTION:
+            case RANODM_MOVE:
                 domain.moveOrgRandomInRange(animal.getId(), animal.getMovementRange());
                 break;
             default:

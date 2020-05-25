@@ -1,11 +1,8 @@
 package simulator.model.organism;
 
 import simulator.model.Config;
-import simulator.model.exceptions.NoAnimalActionException;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Random;
 
 public class Carnivore extends Animal {
 
@@ -38,26 +35,28 @@ public class Carnivore extends Animal {
         System.out.println("CARNIVORE: ID" + getId() + " Energy " + getEnergyLevel() + " Attempting interaction...");
         Action interaction;
         if(getEnergyLevel() > 7) {
-            interaction = findFromType(orgsInActionProx, Action.MATE_WITH, OrganismType.CARNIVORE);
+            interaction = findFromTypeForAction(orgsInActionProx, Action.MATE_WITH, OrganismType.CARNIVORE);
         }else {
-            interaction = findFromType(orgsInActionProx, Action.FEED_ON, OrganismType.HERBIVORE);
+            interaction = findFromTypeForAction(orgsInActionProx, Action.FEED_ON, OrganismType.HERBIVORE);
         }
         return  interaction;
     }
 
     @Override
-    public Action move(List<Organism> orgsInSightProx) {
+    public Move move(List<Organism> orgsInSightProx) {
         System.out.println("CARNIVORE: ID" + getId() + " Energy " + getEnergyLevel() + " Attempting move...");
-        Action move;
+        Move move;
         if(getEnergyLevel() > 7) {
-            move = findFromType(orgsInSightProx, Action.MOVE_TO, OrganismType.CARNIVORE);
+            System.out.println("CARNIVORE: Wants to mate...");
+            move = findFromTypeForMove(orgsInSightProx, Move.MOVE_TO, OrganismType.CARNIVORE);
         }else {
-            move = findFromType(orgsInSightProx, Action.MOVE_TO, OrganismType.HERBIVORE);
+            System.out.println("CARNIVORE: Wants to feed...");
+            move = findFromTypeForMove(orgsInSightProx, Move.MOVE_TO, OrganismType.HERBIVORE);
         }
         return move;
     }
 
-    private Action findFromType(List<Organism> orgsInProx, Action action, OrganismType orgType) {
+    private Action findFromTypeForAction(List<Organism> orgsInProx, Action action, OrganismType orgType) {
         boolean searching = true;
         System.out.println("CARNIVORE: Checking given IDs " + orgsInProx + " for match of action " + action);
         for(Organism organism : orgsInProx) {
@@ -72,5 +71,23 @@ public class Carnivore extends Animal {
             System.out.println("CARNIVORE: Found no point of interest");
         }
         return action;
+    }
+
+    private Move findFromTypeForMove(List<Organism> orgsInProx, Move move, OrganismType orgType) {
+        move.resetList();
+        boolean searching = true;
+        System.out.println("CARNIVORE: Checking given IDs " + orgsInProx + " for match of move " + move);
+        for(Organism organism : orgsInProx) {
+            if(organism.getType().equals(orgType)) {
+                move.addId(organism.getId());
+                System.out.println("CARNIVORE: Found " + organism.getType() + " ID " + organism.getId());
+                searching = false;
+            }
+        }
+        if(searching) {
+            move = Move.RANODM_MOVE;
+            System.out.println("CARNIVORE: Found no point of interest");
+        }
+        return move;
     }
 }

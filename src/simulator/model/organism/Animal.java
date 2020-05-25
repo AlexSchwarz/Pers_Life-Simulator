@@ -1,7 +1,6 @@
 package simulator.model.organism;
 
-import simulator.model.exceptions.NoAnimalActionException;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Animal extends Organism {
@@ -21,7 +20,7 @@ public abstract class Animal extends Organism {
     }
 
     public enum Action {
-        MOVE_TO, RUN_FROM, FEED_ON, MATE_WITH, NO_ACTION;;
+        FEED_ON, MATE_WITH, NO_ACTION;;
 
         String id = "-1";
 
@@ -31,6 +30,24 @@ public abstract class Animal extends Organism {
 
         public String getId() {
             return id;
+        }
+    }
+
+    public enum Move {
+        MOVE_TO, RUN_FROM, RANODM_MOVE;
+
+        List<String> idList = new ArrayList<>();
+
+        public void resetList() {
+            idList = new ArrayList<>();
+        }
+
+        public void addId(String id) {
+            idList.add(id);
+        }
+
+        public List<String> getIdList() {
+            return idList;
         }
     }
 
@@ -74,5 +91,5 @@ public abstract class Animal extends Organism {
 
     public abstract Action interact(List<Organism> orgsInActionProx);
 
-    public abstract Action move(List<Organism> orgsInSightProx);
+    public abstract Move move(List<Organism> orgsInSightProx);
 }

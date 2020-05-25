@@ -1,7 +1,6 @@
 package simulator.model.organism;
 
 import simulator.model.Config;
-import simulator.model.exceptions.NoAnimalActionException;
 
 import java.util.List;
 
@@ -37,8 +36,8 @@ public class Herbivore extends Animal {
     }
 
     @Override
-    public Action move(List<Organism> orgsInSightProx) {
-        return Action.NO_ACTION;
+    public Move move(List<Organism> orgsInSightProx) {
+        return Move.RANODM_MOVE;
     }
 
     private Action findFromType(List<Organism> orgsInProx, Action action, OrganismType orgType) {
