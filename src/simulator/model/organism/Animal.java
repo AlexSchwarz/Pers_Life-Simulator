@@ -1,22 +1,18 @@
 package simulator.model.organism;
 
+import simulator.model.Config;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Animal extends Organism {
 
     private int age = 0;
-    private final int sightRange;
-    private final int movementRange;
     private int energyLevel;
-    private int maxEnergyLevel;
 
-    public Animal(OrganismType type, int sightRange, int movementRange, int maxEnergyLevel, int energyLevel) {
-        super(type);
-        this.sightRange = sightRange;
-        this.movementRange = movementRange;
-        this.maxEnergyLevel = maxEnergyLevel;
-        this.energyLevel = energyLevel;
+    public Animal() {
+        super();
+        this.energyLevel = getEnergyToMate()-1;
     }
 
     public enum Action {
@@ -59,14 +55,6 @@ public abstract class Animal extends Organism {
         age++;
     }
 
-    public int getSightRange() {
-        return sightRange;
-    }
-
-    public int getMovementRange() {
-        return movementRange;
-    }
-
     public int getEnergyLevel() {
         return energyLevel;
     }
@@ -83,7 +71,7 @@ public abstract class Animal extends Organism {
     public void increaseEnergyLevel(int energyAmount) {
         if(energyAmount >= 0) {
             int newEnergy = energyLevel + energyAmount;
-            energyLevel = Math.min(newEnergy, maxEnergyLevel);
+            energyLevel = Math.min(newEnergy, getMaxEnergyLevel());
         } else {
             throw new IllegalArgumentException("Energy amount may not be negative");
         }
@@ -92,4 +80,18 @@ public abstract class Animal extends Organism {
     public abstract Action interact(List<Organism> orgsInActionProx);
 
     public abstract Move move(List<Organism> orgsInSightProx);
+
+    public abstract int getSightRange();
+
+    public abstract int getMovementRange();
+
+    public abstract int getMaxEnergyLevel();
+
+    public abstract int getStartEnergy();
+
+    public abstract int getEnergyToMate();
+
+    public abstract int getEnergyMateCost();
+
+    public abstract Config.OrganismType getType();
 }

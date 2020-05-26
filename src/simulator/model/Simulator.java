@@ -28,7 +28,7 @@ public class Simulator {
         }
     }
 
-    public void progressSimulation() throws InterruptedException {
+    public void progressSimulation() throws EnvironmentCycleCompleteException, NoOrganismsLeftException {
         System.out.println("SIMULATOR: Continue simulation day " + currentDayCount + "...");
         try {
             environment.progressEnvironmentByOrganism();
@@ -38,12 +38,16 @@ public class Simulator {
             System.out.println("SIMULATOR: Simulation day " + currentDayCount + " ended ********************");
             //logOrgCountData();
             currentDayCount++;
-
+            throw new EnvironmentCycleCompleteException("day done");
         }
     }
 
     public String getGridDataString(PositionVector pos) throws InvalidPositionException {
         return environment.getGridDataString(pos);
+    }
+
+    public String getCurrentOrgDataString() {
+        return environment.getCurrentOrgDataString();
     }
 
     private void initDataFile() {

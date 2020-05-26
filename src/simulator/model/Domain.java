@@ -1,5 +1,6 @@
 package simulator.model;
 
+import javafx.geometry.Pos;
 import simulator.model.exceptions.IllegalEnvironmentException;
 import simulator.model.exceptions.InvalidIdentifierException;
 import simulator.model.exceptions.InvalidPositionException;
@@ -41,7 +42,7 @@ public class Domain {
         return stringRepDomain;
     }
 
-    public void initOrganismPlacement(String identifier) {
+    public void initOrganismRandomPlacement(String identifier) {
         System.out.println("DOMAIN: Attempting init placement of ID " + identifier + "...");
         boolean searching = true;
         while(searching) {
@@ -56,6 +57,10 @@ public class Domain {
             }
         }
         System.out.println("DOMAIN: -> Init placement successful");
+    }
+
+    public void initOrganismPlacementAtId(String identifier, String relativeId) throws InvalidIdentifierException, InvalidPositionException {
+        setOrganism(identifier, getEmptySpacesInProximity(relativeId,1).get(0));
     }
 
     private void setOrganism(String identifier, PositionVector position) throws InvalidPositionException {

@@ -32,6 +32,7 @@
          <children>
             <Button fx:id="ButtonInitSim" mnemonicParsing="false" onAction="#initSim" text="Init Sim" />
             <Button fx:id="ButtonStepSim" mnemonicParsing="false" onAction="#stepSim" text="Step Sim" />
+            <Button fx:id="ButtonRunDay" mnemonicParsing="false" onAction="#runDay" text="Run Day" />
          </children>
       </HBox>
    </bottom>

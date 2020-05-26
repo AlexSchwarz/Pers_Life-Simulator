@@ -1,20 +1,26 @@
 package simulator.model.organism;
 
+import simulator.model.Config;
+
 public class Plant extends Organism {
 
     public Plant() {
-        super(OrganismType.PLANT);
+        super();
     }
 
     @Override
     public String toString() {
-        String orgString;
-        if(Integer.parseInt(getId()) < 10) {
-            orgString = "0" + getId() + "P";
-        }else {
-            orgString = getId() + "P";
-        }
-        return orgString;
+        StringBuilder orgString = new StringBuilder();
+        orgString.append(getId());
+        orgString.append("P");
+        orgString.append("\n");
+        orgString.append("E" + getEnergyLevel());
+        return orgString.toString();
+    }
+
+    @Override
+    public Config.OrganismType getType() {
+        return Config.OrganismType.PLANT;
     }
 
     @Override
@@ -24,5 +30,10 @@ public class Plant extends Organism {
         String position = "NO_POSITION";
         String[] dataArray = {id, type, position};
         return dataArray;
+    }
+
+    @Override
+    public int getEnergyLevel() {
+        return Config.PLANT_MAX_ENERGYLEVEL;
     }
 }
