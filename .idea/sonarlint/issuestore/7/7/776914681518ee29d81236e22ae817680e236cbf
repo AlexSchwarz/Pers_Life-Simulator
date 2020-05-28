@@ -1,0 +1,7 @@
+
+V	java:S106—"9Replace this use of System.out or System.err by a logger.(µ¼ôı8ˆıÂ¥.
+Z	java:S106o"9Replace this use of System.out or System.err by a logger.(ƒÍ¸¡øÿÿÿÿ8—ÄˆÂ¥.
+U	java:S1062"9Replace this use of System.out or System.err by a logger.(Øæá8—ÄˆÂ¥.
+y
+java:S1192o"WDefine a constant instead of duplicating this literal "DOMAIN: Returning pos " 3 times.(ƒÍ¸¡øÿÿÿÿ8‰¿„Ã¥.
+[	java:S106ƒ"9Replace this use of System.out or System.err by a logger.(•…É‡üÿÿÿÿ8‰¿„Ã¥.
