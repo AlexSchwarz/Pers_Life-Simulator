@@ -5,26 +5,27 @@ import java.util.List;
 
 public final class Config {
     public static final int SIZE = 30;
-    public static final String BLANK = "---";
+    public static final char BLANK = '-';
     public static final String DELIMINATOR = ";";
     public static final int MAX_RUN_PROGRESSIONS = 100;
     public static final int INTERACTION_RANGE = 1;
+    public static final int DAILY_ENERGY_LOSS = 1;
 
-    public static final int PLANT_COUNT = 15;
-    public static final int CARNIVORE_COUNT = 3;
+    public static final int PLANT_COUNT = 2;
+    public static final int CARNIVORE_COUNT = 5;
     public static final int HERBIVORE_COUNT = 5;
 
     public static final int PLANT_START_ENERGY = 10;
     public static final int PLANT_MAX_ENERGY = 10;
 
-    public static final int CARNIVORE_SIGHT = 15;
+    public static final int CARNIVORE_SIGHT = 10;
     public static final int CARNIVORE_MOVEMENT = 3;
     public static final int CARNIVORE_MAX_ENERGY = 20;
     public static final int CARNIVORE_START_ENERGY = 10;
     public static final int CARNIVORE_ENERGY_TO_MATE = 15;
     public static final int CARNIVORE_ENERGY_MATE_COST = 10;
 
-    public static final int HERBIVORE_SIGHT = 15;
+    public static final int HERBIVORE_SIGHT = 10;
     public static final int HERBIVORE_MOVEMENT = 5;
     public static final int HERBIVORE_MAX_ENERGY = 20;
     public static final int HERBIVORE_START_ENERGY = 10;
@@ -32,7 +33,7 @@ public final class Config {
     public static final int HERBIVORE_ENERGY_MATE_COST = 5;
 
     public enum OrganismType {
-        PLANT('P'), HERBIVORE('H'), CARNIVORE('C');
+        PLANT('P'), HERBIVORE('H'), CARNIVORE('C'), VOID(Config.BLANK);
 
         private char symbol;
 
@@ -40,9 +41,11 @@ public final class Config {
             this.symbol = symbol;
         }
 
-        public char getSymbol() {
-            return symbol;
+        @Override
+        public String toString() {
+            return String.valueOf(symbol);
         }
+
     }
 
     public enum ActionType {

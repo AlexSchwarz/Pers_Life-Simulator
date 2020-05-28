@@ -12,37 +12,41 @@ public class Simulator {
 
     private File dataFile;
     private Environment environment;
-    private int currentDayCount = 0;
 
     public Simulator() {
         System.out.println("SIMULATOR: Attempting init simulation...");
         try {
-            initDataFile();
+            //initDataFile();
             environment = new Environment(Config.SIZE,Config.PLANT_COUNT,Config.HERBIVORE_COUNT,Config.CARNIVORE_COUNT);
             System.out.println("SIMULATOR: -> Simulation init successful");
             //logOrgCountData();
-            currentDayCount++;
         } catch (IllegalEnvironmentException | SimulatorErrorException e) {
             e.printStackTrace();
             System.out.println("SIMULATOR: Init simulation FAILED");
         }
     }
 
-    public void progressSimulation() throws EnvironmentCycleCompleteException, NoOrganismsLeftException {
-        System.out.println("SIMULATOR: Continue simulation day " + currentDayCount + "...");
-            //environment.progressEnvironmentByOrganism();
-            //logOrgCountData();
-            //currentDayCount++;
+    public void progressSimulation() {
+        System.out.println("SIMULATOR: Progress simulation");
+        try {
+            environment.progressCurrentOrganism();
+        } catch (InvalidIdentifierException e) {
+            e.printStackTrace();
+        } catch (SimulatorErrorException e) {
+            e.printStackTrace();
+        } catch (InvalidPositionException e) {
+            e.printStackTrace();
+        }
+        //logOrgCountData();
+        //currentDayCount++;
     }
 
     public String getGridDataString(PositionVector pos) throws InvalidPositionException {
-        //return environment.getGridDataString(pos);
-        return null;
+        return environment.getGridDataString(pos);
     }
 
     public String getCurrentOrgDataString() {
-        //return environment.getCurrentOrgDataString();
-        return null;
+        return environment.getCurrentOrganismDataString();
     }
 
     private void initDataFile() {

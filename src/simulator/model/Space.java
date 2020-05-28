@@ -3,13 +3,13 @@ package simulator.model;
 public class Space {
 
     private final PositionVector position;
-    private String content = Config.BLANK;
+    private Identification content = new Identification(String.valueOf(Config.BLANK), Config.OrganismType.VOID);
 
     public Space(PositionVector position) {
         this.position = position;
     }
 
-    public String getContent() {
+    public Identification getContent() {
         return content;
     }
 
@@ -17,11 +17,11 @@ public class Space {
         return position;
     }
 
-    public void setContent(String content) {
+    public void setContent(Identification content) {
         this.content = content;
     }
 
     public void setBlank() {
-        content = Config.BLANK;
+        content = new Identification(String.valueOf(Config.BLANK), Config.OrganismType.VOID);
     }
 }

@@ -8,14 +8,15 @@ import java.util.*;
 public class Environment {
 
     private List<Organism> organismList = new ArrayList<>();
-    private String currentOrganismId;
     private DomainWritable domain;
+    private Identification currentOrganismID;
+    private int dayCount = 0;
 
     public Environment(int size, int plantCount, int herbivoreCount, int carnivoreCount) throws IllegalEnvironmentException, SimulatorErrorException {
         validateParameters(plantCount, herbivoreCount, carnivoreCount, size);
         domain = new DomainWritable(size);
         initOrganismsStart(plantCount, herbivoreCount, carnivoreCount);
-        currentOrganismId = organismList.get(0).getId();
+        currentOrganismID = organismList.get(0).getID();
     }
 
     private void validateParameters(int orgCount1, int orgCount2, int orgCount3, int size) throws IllegalEnvironmentException {
@@ -45,6 +46,19 @@ public class Environment {
         return organism;
     }
 
+    public int getDayCount() {
+        return dayCount;
+    }
+
+    //TESTING ONLY
+    public DomainWritable getDomain() {
+        return domain;
+    }
+
+    public void printDomain() {
+        System.out.println(domain.toString());
+    }
+
     private void initOrganismsStart(int plantCount, int herbivoreCount, int carnivoreCount) throws IllegalEnvironmentException {
         System.out.println("ENVIRONMENT: Attempting init all organisms...");
         initOrganismFromTypeAndCount(Config.OrganismType.PLANT, plantCount);
@@ -58,71 +72,78 @@ public class Environment {
         while(counter < orgCount) {
             Organism organism = newOrganismFromType(type);
             organismList.add(organism);
-            //domain.initOrganismRandomPlacement(organism.getId());
+            domain.initIDRandomPlacement(organism.getID());
             counter ++;
         }
         System.out.println("ENVIRONMENT: -> Init " + orgCount + " " + type + "s successful");
     }
 
-    /*
-    public void progressEnvironmentByOrganism() throws IllegalEnvironmentException, InvalidIdentifierException, InvalidPositionException, EnvironmentCycleCompleteException, NoOrganismsLeftException {
-        Organism organism = currentOrganism;
-        if(organism == null) throw new NoOrganismsLeftException("No animal left");
-        System.out.println("ENVIRONMENT: Progress " + organism.getType() + " ID " + organism.getId() + " **********");
+
+    public void progressCurrentOrganism() throws InvalidIdentifierException, SimulatorErrorException, InvalidPositionException {
+        Organism organism = getOrganismFromID(currentOrganismID);
+        System.out.println("ENVIRONMENT: Progressing organism " + organism.toInfoString() + ", day " + dayCount);
         if(organism instanceof Plant) {
-            progressPlant(organism);
-        } else if (organism instanceof Animal) {
+            progressPlant((Plant) organism);
+        }else if(organism instanceof Animal) {
             progressAnimal((Animal) organism);
-        } else {
-            throw new IllegalEnvironmentException("Object not instance of any concrete organism");
         }
         organism.increaseAge();
-        System.out.println("ENVIRONMENT: Progress ID " + organism.getId() + " ended");
         switchNextOrganism();
     }
 
-     */
-
-    private Organism getOrganismFromId(String identifier) throws InvalidIdentifierException {
+    private Organism getOrganismFromID(Identification id) throws InvalidIdentifierException {
         Organism foundOrganism = null;
         Iterator<Organism> it = organismList.iterator();
         boolean searching = true;
         while(searching && it.hasNext()) {
             Organism organism = it.next();
-            if(organism.getId().equals(identifier)) {
+            if(organism.getID().equals(id)) {
                 foundOrganism = organism;
+                searching = false;
             }
         }
         if(searching) {
-            throw new InvalidIdentifierException("No Environment organism ID matches " + identifier);
+            throw new InvalidIdentifierException("No Environment organism number matches " + id);
         }
         Objects.requireNonNull(foundOrganism);
         return foundOrganism;
     }
 
-    /*
-    private void switchNextOrganism() throws EnvironmentCycleCompleteException, NoOrganismsLeftException {
-        System.out.println("ENVIRONMENT: Switching to next organism");
-        if(organisms.isEmpty()) {
-            currentOrganism = null;
-            throw new NoOrganismsLeftException("No organisms left in environment");
-        } else {
-            try {
-                currentOrganism = organisms.get(organisms.indexOf(currentOrganism) + 1);
-            } catch (IndexOutOfBoundsException e) {
-                currentOrganism = organisms.get(0);
-                throw new EnvironmentCycleCompleteException("Full organism cycle completed");
+
+    private void switchNextOrganism() throws SimulatorErrorException {
+        System.out.println("ENVIRONMENT: Switching to next ID from " + currentOrganismID);
+        if(organismList.isEmpty()) {
+            currentOrganismID = null;
+            throw new SimulatorErrorException("No orgs left");
+        }
+        System.out.println("ENVIRONMENT: Searching through " + organismList);
+        Iterator<Organism> it = organismList.iterator();
+        boolean searching = true;
+        while(searching && it.hasNext()) {
+            Organism organism = it.next();
+            if(Integer.parseInt(currentOrganismID.getNumber()) < Integer.parseInt(organism.getID().getNumber())) {
+                currentOrganismID = organism.getID();
+                System.out.println("ENVIRONMENT: Found higher number " + currentOrganismID);
+                searching = false;
             }
         }
+        if(searching) {
+            currentOrganismID = organismList.get(0).getID();
+            System.out.println("ENVIRONMENT: No higher ID found, cycle to first organism " + currentOrganismID);
+            dayCount++;
+            System.out.println("ENVIRONMENT: Increase day count to " + dayCount);
+        }
     }
-     */
 
-    private void progressPlant(Organism organism) {
-
+    private void progressPlant(Plant plant) {
+        System.out.println("PLACE HOLDER PLANT PROGRESS");
     }
 
-    private void progressAnimal(Animal animal) throws InvalidIdentifierException, InvalidPositionException, IllegalEnvironmentException {
-
+    private void progressAnimal(Animal animal) throws InvalidIdentifierException, InvalidPositionException {
+        Config.MoveType move = animal.move(domain);
+        domain.moveID(animal.getID(), move.getPosition());
+        animal.decreaseEnergy(Config.DAILY_ENERGY_LOSS);
+        //kill if energy 0
     }
 
     /*
@@ -173,12 +194,15 @@ public class Environment {
 
      */
 
+    /*
     private void feedAnimal(Animal animal, Organism orgToFeedOn) throws InvalidIdentifierException {
-        System.out.println("ENVIRONMENT: " + animal.getType() + " " + animal.getId() + " feeding on " + orgToFeedOn.getType() + " " + orgToFeedOn.getId());
+        System.out.println("ENVIRONMENT: " + animal.getInfo().getType() + " " + animal.getInfo().getID() + " feeding on " + orgToFeedOn.getInfo().getType() + " " + orgToFeedOn.getInfo().getID());
         animal.increaseEnergyLevel(orgToFeedOn.getEnergyLevel());
-        domain.removeID(orgToFeedOn.getId());
+        domain.removeInfo(orgToFeedOn.getInfo());
         organismList.remove(orgToFeedOn);
     }
+
+     */
 
     /*
     private void mateAnimal(Animal animal, Animal animalToMate) throws IllegalEnvironmentException, InvalidIdentifierException, InvalidPositionException {
@@ -209,20 +233,11 @@ public class Environment {
     }
 
      */
-
-    /*
     public String getGridDataString(PositionVector pos) throws InvalidPositionException {
-        String dataString;
-        try{
-            dataString = getOrganismFromId(domain.getContentAtPosition(pos)).toString();
-        } catch (InvalidIdentifierException e) {
-            dataString = "--";
-        }
-        return  dataString;
-    }
-    public void printDomain() {
-        domain.printDomain();
+        return domain.getIDAtPosition(pos).toString();
     }
 
-     */
+    public String getCurrentOrganismDataString() {
+        return currentOrganismID.toString();
+    }
 }

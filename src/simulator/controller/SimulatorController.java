@@ -6,15 +6,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import simulator.model.Config;
 import simulator.model.PositionVector;
 import simulator.model.Simulator;
-import simulator.model.exceptions.EnvironmentCycleCompleteException;
 import simulator.model.exceptions.InvalidPositionException;
-import simulator.model.exceptions.NoOrganismsLeftException;
-
-import java.util.concurrent.TimeUnit;
 
 public class SimulatorController {
     @FXML GridPane GridPaneDomain;
@@ -35,7 +30,7 @@ public class SimulatorController {
     private void setEmptyArray() {
         for(int i = 0; i < Config.SIZE; i++) {
             for(int j = 0; j < Config.SIZE; j++) {
-                Label label = new Label("-");
+                Label label = new Label("[ ]");
                 label.setFont(new Font("Arial", 11));
                 labelArray[i][j] = label;
             }
@@ -54,29 +49,15 @@ public class SimulatorController {
 
     @FXML
     public void stepSim() throws InvalidPositionException {
-        try {
-            simulator.progressSimulation();
-        } catch (EnvironmentCycleCompleteException | NoOrganismsLeftException e) {
-
-        }
+        simulator.progressSimulation();
         removeLables();
         updateArray();
         updateGridPane();
     }
 
     @FXML
-    public void runDay() throws InvalidPositionException {
-        boolean run = true;
-        while(run) {
-            try {
-                simulator.progressSimulation();
-            } catch (EnvironmentCycleCompleteException | NoOrganismsLeftException e) {
-                run = false;
-            }
-            removeLables();
-            updateArray();
-            updateGridPane();
-        }
+    public void runDay() {
+
     }
 
     private void updateArray() throws InvalidPositionException {
@@ -91,8 +72,10 @@ public class SimulatorController {
                     label.setTextFill(Color.GREEN);
                 }else if (dataString.contains("C")){
                     label.setTextFill(Color.BLACK);
-                }else{
+                }else if (dataString.contains("H")){
                     label.setTextFill(Color.BLUE);
+                }else {
+                    label.setTextFill(Color.GRAY);
                 }
                 labelArray[i][j] = label;
             }

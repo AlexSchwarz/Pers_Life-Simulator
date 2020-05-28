@@ -1,67 +1,72 @@
 package simulator.model.organism;
 
 import simulator.model.Config;
+import simulator.model.Identification;
 
 public abstract class Organism {
 
-    private static int identificationCounter = 1;
-    private final String organismID;
+    private static int numberCounter = 1;
+    private final Identification id;
     private int age = 0;
-    private int energyLevel;
+    private int energy;
 
     public Organism() {
-        organismID = String.valueOf(identificationCounter) + Config.DELIMINATOR + getType().getSymbol();
-        identificationCounter++;
-        this.energyLevel = getStartEnergy();
+        id = new Identification(String.valueOf(numberCounter), getType());
+        numberCounter++;
+        this.energy = getStartEnergy();
     }
 
-    public void decreaseEnergyLevel(int energyAmount) {
-        if(energyAmount >= 0) {
-            int newEnergy = energyLevel - energyAmount;
-            energyLevel = Math.max(newEnergy, 0);
-        } else {
-            throw new IllegalArgumentException("Energy amount may not be negative");
-        }
-    }
-
-    public void increaseEnergyLevel(int energyAmount) {
-        if(energyAmount >= 0) {
-            int newEnergy = energyLevel + energyAmount;
-            energyLevel = Math.min(newEnergy, getMaxEnergyLevel());
-        } else {
-            throw new IllegalArgumentException("Energy amount may not be negative");
-        }
+    public Identification getID() {
+        return id;
     }
 
     public int getAge() {
         return age;
     }
 
+    public int getEnergy() {
+        return energy;
+    }
+
+    public void decreaseEnergy(int energyAmount) {
+        if(energyAmount >= 0) {
+            int newEnergy = energy - energyAmount;
+            energy = Math.max(newEnergy, 0);
+        } else {
+            throw new IllegalArgumentException("Energy amount may not be negative");
+        }
+    }
+
+    public void increaseEnergy(int energyAmount) {
+        if(energyAmount >= 0) {
+            int newEnergy = energy + energyAmount;
+            energy = Math.min(newEnergy, getMaxEnergy());
+        } else {
+            throw new IllegalArgumentException("Energy amount may not be negative");
+        }
+    }
+
     public void increaseAge() {
         age++;
     }
 
-    public String getId() {
-        return organismID;
-    }
+    protected abstract Config.OrganismType getType();
 
-    public int getEnergyLevel() {
-        return energyLevel;
-    }
-
-    public abstract Config.OrganismType getType();
-
-    public abstract int getMaxEnergyLevel();
+    public abstract int getMaxEnergy();
 
     public abstract int getStartEnergy();
 
+    public String toInfoString() {
+        StringBuilder orgString = new StringBuilder();
+        orgString.append(id.toString());
+        //orgString.append("\n");
+        orgString.append(" Age "+ getAge());
+        orgString.append(" Energy " + getEnergy());
+        return orgString.toString();
+    }
+
     @Override
     public String toString() {
-        StringBuilder orgString = new StringBuilder();
-        orgString.append(getId());
-        orgString.append("\n");
-        orgString.append("A"+ getAge());
-        orgString.append("E" + getEnergyLevel());
-        return orgString.toString();
+        return id.toString();
     }
 }

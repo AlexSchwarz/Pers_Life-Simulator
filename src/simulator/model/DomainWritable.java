@@ -13,7 +13,7 @@ public class DomainWritable extends DomainReadable{
         super(size);
     }
 
-    public void initIDRandomPlacement(String identifier) {
+    public void initIDRandomPlacement(Identification id) {
         Random random = new Random();
         boolean searching = true;
         while(searching) {
@@ -21,8 +21,8 @@ public class DomainWritable extends DomainReadable{
             int randomY = random.nextInt(size);
             PositionVector randomPosition = new PositionVector(randomX, randomY);
             try {
-                setIDAtPosition(identifier, randomPosition);
-                System.out.println("DOMAIN: -> Init placement of ID " + identifier + " at " + randomPosition);
+                setIDAtPosition(id, randomPosition);
+                System.out.println("DOMAIN: -> Init placement of ID " + id.toString() + " at " + randomPosition);
                 searching = false;
             } catch (InvalidPositionException e) {
                 System.out.println(e.getMessage());
@@ -30,26 +30,26 @@ public class DomainWritable extends DomainReadable{
         }
     }
 
-    private void setIDAtPosition(String id, PositionVector position) throws InvalidPositionException {
+    private void setIDAtPosition(Identification id, PositionVector position) throws InvalidPositionException {
         Objects.requireNonNull(position);
         Objects.requireNonNull(id);
-        if(getContentAtPosition(position).equals(BLANK)) {
-            System.out.println("DOMAIN: Set content " + id + " at position " + position);
+        if(getIDAtPosition(position).isBlank()) {
+            System.out.println("DOMAIN: Set content " + id.toString() + " at position " + position);
             domainArray[position.getY()][position.getX()].setContent(id);
         } else {
             throw new InvalidPositionException("Error: Position: " + position + " is taken");
         }
     }
 
-    public void removeID(String id) throws InvalidIdentifierException {
+    public void removeID(Identification id) throws InvalidIdentifierException {
         Objects.requireNonNull(id);
-        PositionVector pos = getPositionOfId(id);
+        PositionVector pos = getPositionOfID(id);
         domainArray[pos.getY()][pos.getX()].setBlank();
     }
 
-    public void moveID(String identifier, PositionVector pos) throws InvalidIdentifierException, InvalidPositionException {
-        removeID(identifier);
-        setIDAtPosition(identifier, pos);
-        System.out.println("DOMAIN: Moved content " + identifier + " to " + pos);
+    public void moveID(Identification id, PositionVector pos) throws InvalidIdentifierException, InvalidPositionException {
+        removeID(id);
+        setIDAtPosition(id, pos);
+        System.out.println("DOMAIN: Moved content " + id.toString() + " to " + pos);
     }
 }

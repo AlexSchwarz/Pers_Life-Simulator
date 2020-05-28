@@ -14,7 +14,7 @@ public class Plant extends Organism {
     }
 
     @Override
-    public int getMaxEnergyLevel() {
+    public int getMaxEnergy() {
         return Config.PLANT_MAX_ENERGY;
     }
 
@@ -24,7 +24,7 @@ public class Plant extends Organism {
     }
 
     @Override
-    public int getEnergyLevel() {
+    public int getEnergy() {
         return Config.PLANT_MAX_ENERGY;
     }
 }

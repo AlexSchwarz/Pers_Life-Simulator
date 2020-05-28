@@ -1,0 +1,43 @@
+
+X
+java:S1144V"6Remove this unused private "getOrganismFromId" method.(•úé üÿÿÿÿ8Ûõð®¥.
+ª
+java:S1130|"ŒRemove the declaration of thrown exception 'simulator.model.exceptions.InvalidPositionException', as it cannot be thrown from method's body.(ºÁÒÍ8ƒð÷®¥.
+Z	java:S1061"9Replace this use of System.out or System.err by a logger.(Ž¯º¥ýÿÿÿÿ8Öïç¯¤.
+T
+java:S2589Z"7Remove this expression which always evaluates to "true"(©À³Í8©ö¾Ã¥.
+X	java:S125D"<This block of commented-out lines of code should be removed.(…„“8¿Žê®¥.
+U	java:S106@"9Replace this use of System.out or System.err by a logger.(ü‘¡˜8Öïç¯¤.
+­
+java:S1130|"Remove the declaration of thrown exception 'simulator.model.exceptions.IllegalEnvironmentException', as it cannot be thrown from method's body.(ºÁÒÍ8ƒð÷®¥.
+T
+java:S2589`"7Remove this expression which always evaluates to "true"(ßáé«8©ö¾Ã¥.
+Y	java:S125Ö"<This block of commented-out lines of code should be removed.(Ø©ƒ—8Ûõð®¥.
+P
+java:S1144|"3Remove this unused private "progressAnimal" method.(ºÁÒÍ8¿Žê®¥.
+£
+java:S1186x"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‚¶†ðüÿÿÿÿ8  âÅ¤.
+M
+java:S1144°"/Remove this unused private "feedAnimal" method.(­ÄÞÛ8·Ìì®¥.
+P
+java:S1135‚"2Complete the task associated to this TODO comment.(ÜŽËï8Î«ä¹¤.
+^	java:S125š"<This block of commented-out lines of code should be removed.(çŒŽòüÿÿÿÿ8·Ìì®¥.
+[	java:S106±"9Replace this use of System.out or System.err by a logger.(¸‰²ûúÿÿÿÿ8·Ìì®¥.
+^	java:S125"<This block of commented-out lines of code should be removed.(ñö¦ðúÿÿÿÿ8ë¦ì®¥.
+T
+java:S1144x"2Remove this unused private "progressPlant" method.(‚¶†ðüÿÿÿÿ8¿Žê®¥.
+ž
+java:S1186|"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ºÁÒÍ8ƒð÷®¥.
+Z	java:S1065"9Replace this use of System.out or System.err by a logger.(È½˜ºýÿÿÿÿ8Öïç¯¤.
+J
+java:S1172|"-Remove this unused method parameter "animal".(ºÁÒÍ8ƒð÷®¥.
+¬
+java:S1130|"ŽRemove the declaration of thrown exception 'simulator.model.exceptions.InvalidIdentifierException', as it cannot be thrown from method's body.(ºÁÒÍ8ƒð÷®¥.
+R
+java:S1068"5Remove this unused "currentOrganismId" private field.(ƒŸ‡8Øù¤•¥.
+Q
+java:S1172x"/Remove this unused method parameter "organism".(‚¶†ðüÿÿÿÿ8  âÅ¤.
+X	java:S125="<This block of commented-out lines of code should be removed.(‰ÿœ—8£é®¥.
+X	java:S125h"<This block of commented-out lines of code should be removed.(òŽ¼8ôÉê®¥.
+^	java:S125¸"<This block of commented-out lines of code should be removed.(«„žŠúÿÿÿÿ8‹êï®¥.
+Y	java:S125Æ"<This block of commented-out lines of code should be removed.(íâÎ­8Ûõð®¥.
