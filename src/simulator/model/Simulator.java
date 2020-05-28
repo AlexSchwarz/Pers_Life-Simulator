@@ -22,7 +22,7 @@ public class Simulator {
             System.out.println("SIMULATOR: -> Simulation init successful");
             //logOrgCountData();
             currentDayCount++;
-        } catch (IllegalEnvironmentException e) {
+        } catch (IllegalEnvironmentException | SimulatorErrorException e) {
             e.printStackTrace();
             System.out.println("SIMULATOR: Init simulation FAILED");
         }
@@ -30,24 +30,19 @@ public class Simulator {
 
     public void progressSimulation() throws EnvironmentCycleCompleteException, NoOrganismsLeftException {
         System.out.println("SIMULATOR: Continue simulation day " + currentDayCount + "...");
-        try {
-            environment.progressEnvironmentByOrganism();
-        } catch (IllegalEnvironmentException | InvalidIdentifierException | InvalidPositionException e) {
-            e.printStackTrace();
-        } catch (EnvironmentCycleCompleteException e) {
-            System.out.println("SIMULATOR: Simulation day " + currentDayCount + " ended ********************");
+            //environment.progressEnvironmentByOrganism();
             //logOrgCountData();
-            currentDayCount++;
-            throw new EnvironmentCycleCompleteException("day done");
-        }
+            //currentDayCount++;
     }
 
     public String getGridDataString(PositionVector pos) throws InvalidPositionException {
-        return environment.getGridDataString(pos);
+        //return environment.getGridDataString(pos);
+        return null;
     }
 
     public String getCurrentOrgDataString() {
-        return environment.getCurrentOrgDataString();
+        //return environment.getCurrentOrgDataString();
+        return null;
     }
 
     private void initDataFile() {
@@ -61,6 +56,7 @@ public class Simulator {
         //dataFile.deleteOnExit();
     }
 
+    /*
     private void logOrgCountData() {
         System.out.println("SIMULATOR: Attempting log organism count...");
         String data = "DAY;" + currentDayCount + ";" + environment.getEnvironmentDataString();
@@ -72,4 +68,6 @@ public class Simulator {
             e.printStackTrace();
         }
     }
+
+     */
 }
