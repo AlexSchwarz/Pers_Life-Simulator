@@ -5,13 +5,9 @@ import simulator.model.DomainReadable;
 import simulator.model.PositionVector;
 import simulator.model.Space;
 import simulator.model.exceptions.InvalidIdentifierException;
-import simulator.model.exceptions.InvalidPositionException;
-import simulator.model.exceptions.SimulatorErrorException;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static simulator.model.Config.SIZE;
@@ -22,9 +18,9 @@ public abstract class Animal extends Organism {
         super();
     }
 
-    public abstract Config.ActionType interact(DomainReadable domain) throws InvalidIdentifierException;
+    public abstract Config.ActionType interact(PositionVector position, DomainReadable domain) throws InvalidIdentifierException;
 
-    public abstract Config.MoveType move(DomainReadable domain) throws InvalidIdentifierException;
+    public abstract Config.MoveType move(PositionVector position, DomainReadable domain) throws InvalidIdentifierException;
 
     public abstract int getSightRange();
 
@@ -33,6 +29,10 @@ public abstract class Animal extends Organism {
     public abstract int getEnergyToMate();
 
     public abstract int getEnergyMateCost();
+
+    public boolean canMate() {
+        return getEnergy() >= getEnergyToMate();
+    }
 
     public PositionVector getFirstOccurrenceOfTypeFromSpaceList(List<Space> spaceList, Config.OrganismType target) {
         Space foundSpace = spaceList
@@ -44,7 +44,7 @@ public abstract class Animal extends Organism {
         if(foundSpace != null) {
             foundPos = foundSpace.getPosition();
         }
-        System.out.println("ANIMAL: First occurrence of " + target.toString() + " at " + foundPos);
+        //System.out.println("ANIMAL: Returning first occurrence of " + target.toString() + " at " + foundPos);
         return foundPos;
     }
 
@@ -62,7 +62,25 @@ public abstract class Animal extends Organism {
                 shortestDistance = distance;
             }
         }
-        System.out.println("ANIMAL: Empty Pos closest to " + targetPosition + " at " + foundPosition);
+        //System.out.println("ANIMAL: Returning empty position closest to " + targetPosition + " at " + foundPosition);
+        return foundPosition;
+    }
+
+    public PositionVector getEmptyPosFromListFurthestFromTarget(List<Space> moveList, PositionVector targetPosition) {
+        List<Space> emptyInMoveRange = moveList
+                .stream()
+                .filter(space -> space.getContent().getType().equals(Config.OrganismType.VOID))
+                .collect(Collectors.toList());
+        PositionVector foundPosition = null;
+        double longestDistance = 0;
+        for(Space space : emptyInMoveRange) {
+            double distance = PositionVector.magnitude(PositionVector.subtract(targetPosition, space.getPosition()));
+            if(distance > longestDistance) {
+                foundPosition = space.getPosition();
+                longestDistance = distance;
+            }
+        }
+        //System.out.println("ANIMAL: Returning empty position furthest from " + targetPosition + " at " + foundPosition);
         return foundPosition;
     }
 
@@ -77,7 +95,7 @@ public abstract class Animal extends Organism {
         if(foundSpace != null) {
             foundPos = foundSpace.getPosition();
         }
-        System.out.println("ANIMAL: Random " + type.toString() + " at " + foundPos);
+        //System.out.println("ANIMAL: Returning random " + type.toString() + " at " + foundPos);
         return foundPos;
     }
 }

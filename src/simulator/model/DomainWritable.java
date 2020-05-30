@@ -22,19 +22,19 @@ public class DomainWritable extends DomainReadable{
             PositionVector randomPosition = new PositionVector(randomX, randomY);
             try {
                 setIDAtPosition(id, randomPosition);
-                System.out.println("DOMAIN: -> Init placement of ID " + id.toString() + " at " + randomPosition);
+                //System.out.println("DOMAIN: -> Init placement of ID " + id.toString() + " at " + randomPosition);
                 searching = false;
             } catch (InvalidPositionException e) {
-                System.out.println(e.getMessage());
+                //System.out.println(e.getMessage());
             }
         }
     }
 
-    private void setIDAtPosition(Identification id, PositionVector position) throws InvalidPositionException {
+    public void setIDAtPosition(Identification id, PositionVector position) throws InvalidPositionException {
         Objects.requireNonNull(position);
         Objects.requireNonNull(id);
         if(getIDAtPosition(position).isBlank()) {
-            System.out.println("DOMAIN: Set content " + id.toString() + " at position " + position);
+            //System.out.println("DOMAIN: Set content " + id.toString() + " at position " + position);
             domainArray[position.getY()][position.getX()].setContent(id);
         } else {
             throw new InvalidPositionException("Error: Position: " + position + " is taken");
@@ -50,6 +50,6 @@ public class DomainWritable extends DomainReadable{
     public void moveID(Identification id, PositionVector pos) throws InvalidIdentifierException, InvalidPositionException {
         removeID(id);
         setIDAtPosition(id, pos);
-        System.out.println("DOMAIN: Moved content " + id.toString() + " to " + pos);
+        //System.out.println("DOMAIN: Moved content " + id.toString() + " to " + pos);
     }
 }

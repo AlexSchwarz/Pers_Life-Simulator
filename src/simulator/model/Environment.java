@@ -60,11 +60,11 @@ public class Environment {
     }
 
     private void initOrganismsStart(int plantCount, int herbivoreCount, int carnivoreCount) throws IllegalEnvironmentException {
-        System.out.println("ENVIRONMENT: Attempting init all organisms...");
+        //System.out.println("ENVIRONMENT: Attempting init all organisms...");
         initOrganismFromTypeAndCount(Config.OrganismType.PLANT, plantCount);
         initOrganismFromTypeAndCount(Config.OrganismType.HERBIVORE, herbivoreCount);
         initOrganismFromTypeAndCount(Config.OrganismType.CARNIVORE, carnivoreCount);
-        System.out.println("ENVIRONMENT: -> Init all organisms successful");
+        //System.out.println("ENVIRONMENT: -> Init all organisms successful");
     }
 
     private void initOrganismFromTypeAndCount(Config.OrganismType type, int orgCount) throws IllegalEnvironmentException {
@@ -75,13 +75,13 @@ public class Environment {
             domain.initIDRandomPlacement(organism.getID());
             counter ++;
         }
-        System.out.println("ENVIRONMENT: -> Init " + orgCount + " " + type + "s successful");
+        //System.out.println("ENVIRONMENT: -> Init " + orgCount + " " + type + "s successful");
     }
 
 
-    public void progressCurrentOrganism() throws InvalidIdentifierException, SimulatorErrorException, InvalidPositionException {
+    public void progressCurrentOrganism() throws InvalidIdentifierException, SimulatorErrorException, InvalidPositionException, IllegalEnvironmentException {
         Organism organism = getOrganismFromID(currentOrganismID);
-        System.out.println("ENVIRONMENT: Progressing organism " + organism.toInfoString() + ", day " + dayCount);
+        //System.out.println("ENVIRONMENT: Progressing organism " + organism.toInfoString() + ", day " + dayCount);
         if(organism instanceof Plant) {
             progressPlant((Plant) organism);
         }else if(organism instanceof Animal) {
@@ -110,40 +110,85 @@ public class Environment {
     }
 
 
-    private void switchNextOrganism() throws SimulatorErrorException {
-        System.out.println("ENVIRONMENT: Switching to next ID from " + currentOrganismID);
+    private void switchNextOrganism() throws SimulatorErrorException, IllegalEnvironmentException {
+        //System.out.println("ENVIRONMENT: Switching to next ID from " + currentOrganismID);
         if(organismList.isEmpty()) {
             currentOrganismID = null;
             throw new SimulatorErrorException("No orgs left");
         }
-        System.out.println("ENVIRONMENT: Searching through " + organismList);
+        //System.out.println("ENVIRONMENT: Searching through " + organismList);
         Iterator<Organism> it = organismList.iterator();
         boolean searching = true;
         while(searching && it.hasNext()) {
             Organism organism = it.next();
             if(Integer.parseInt(currentOrganismID.getNumber()) < Integer.parseInt(organism.getID().getNumber())) {
                 currentOrganismID = organism.getID();
-                System.out.println("ENVIRONMENT: Found higher number " + currentOrganismID);
+                //System.out.println("ENVIRONMENT: Found higher number " + currentOrganismID);
                 searching = false;
             }
         }
         if(searching) {
             currentOrganismID = organismList.get(0).getID();
-            System.out.println("ENVIRONMENT: No higher ID found, cycle to first organism " + currentOrganismID);
-            dayCount++;
-            System.out.println("ENVIRONMENT: Increase day count to " + dayCount);
+            //System.out.println("ENVIRONMENT: No higher ID found, cycle to first organism " + currentOrganismID);
+            cycleDay();
         }
     }
 
-    private void progressPlant(Plant plant) {
-        System.out.println("PLACE HOLDER PLANT PROGRESS");
+    private void cycleDay() throws IllegalEnvironmentException {
+        //todo: Plant count should be fixed amount -> make sure every day that there are a certain number of plants (dont just add 3 every time)
+        dayCount++;
+        //System.out.println("ENVIRONMENT: Increase day count to " + dayCount);
+        //System.out.println("ENVIRONMENT: Init daily plants");
+        initOrganismFromTypeAndCount(Config.OrganismType.PLANT, Config.DAILY_PLANT_RESTOCK);
     }
 
-    private void progressAnimal(Animal animal) throws InvalidIdentifierException, InvalidPositionException {
-        Config.MoveType move = animal.move(domain);
-        domain.moveID(animal.getID(), move.getPosition());
+    private void progressPlant(Plant plant) {
+        //System.out.println("PLACE HOLDER PLANT PROGRESS");
+    }
+
+    private void progressAnimal(Animal animal) throws InvalidIdentifierException, InvalidPositionException, IllegalEnvironmentException {
+        PositionVector position = domain.getPositionOfID(animal.getID());
+        Config.MoveType move = animal.move(position, domain);
+        //System.out.println("ENVIRONMENT: Received " + move);
+        if (move == Config.MoveType.MOVE_TO) {
+            domain.moveID(animal.getID(), move.getPosition());
+            position = move.getPosition();
+        } else {
+            //System.out.println("ENVIRONMENT: No move");
+        }
+        Config.ActionType action = animal.interact(position, domain);
+        //System.out.println("ENVIRONMENT: Received " + action);
+        if (action == Config.ActionType.MATE_WITH) {
+            mateAction(animal,position, (Animal) getOrganismFromID(domain.getIDAtPosition(action.getPosition())));
+        } else if (action == Config.ActionType.FEED_ON) {
+            feedAction(animal, getOrganismFromID(domain.getIDAtPosition(action.getPosition())));
+        } else {
+            //System.out.println("ENVIRONMENT: No action");
+        }
         animal.decreaseEnergy(Config.DAILY_ENERGY_LOSS);
-        //kill if energy 0
+        if(animal.getEnergy() == 0) {
+            deleteOrganism(animal);
+        }
+    }
+
+    private void mateAction(Animal actorAnimal, PositionVector positionActor, Animal targetAnimal) throws IllegalEnvironmentException, InvalidPositionException {
+        if(actorAnimal.canMate() && targetAnimal.canMate()) {
+            actorAnimal.decreaseEnergy(actorAnimal.getEnergyMateCost());
+            targetAnimal.decreaseEnergy(targetAnimal.getEnergyMateCost());
+            Organism child = newOrganismFromType(actorAnimal.getID().getType());
+            organismList.add(child);
+            domain.setIDAtPosition(child.getID(), actorAnimal.getFirstOccurrenceOfTypeFromSpaceList(domain.getSpacesInProximity(positionActor, 2), Config.OrganismType.VOID));
+        }
+    }
+
+    private void feedAction(Animal actorAnimal, Organism targetOrganism) throws InvalidIdentifierException {
+        actorAnimal.increaseEnergy(targetOrganism.getEnergy());
+        deleteOrganism(targetOrganism);
+    }
+
+    private void deleteOrganism(Organism organism) throws InvalidIdentifierException {
+        domain.removeID(organism.getID());
+        organismList.remove(organism);
     }
 
     /*
@@ -218,21 +263,20 @@ public class Environment {
 
      */
 
-    /*
     public String getEnvironmentDataString() {
         Map<Config.OrganismType, Integer> orgCountMap = new HashMap<>();
-        for(Organism organism : organisms) {
-            int counter = orgCountMap.getOrDefault(organism.getType(), 0);
-            orgCountMap.put(organism.getType(), counter + 1);
+        for(Organism organism : organismList) {
+            int counter = orgCountMap.getOrDefault(organism.getID().getType(), 0);
+            orgCountMap.put(organism.getID().getType(), counter + 1);
         }
         StringBuilder sb = new StringBuilder();
+        sb.append("Day;" + getDayCount() + ";");
         for(Config.OrganismType type : orgCountMap.keySet()) {
             sb.append(type).append(";").append(orgCountMap.get(type)).append(";");
         }
         return sb.toString();
     }
 
-     */
     public String getGridDataString(PositionVector pos) throws InvalidPositionException {
         return domain.getIDAtPosition(pos).toString();
     }

@@ -6,14 +6,14 @@ import java.util.List;
 public final class Config {
     public static final int SIZE = 30;
     public static final char BLANK = '-';
-    public static final String DELIMINATOR = ";";
     public static final int MAX_RUN_PROGRESSIONS = 100;
     public static final int INTERACTION_RANGE = 1;
     public static final int DAILY_ENERGY_LOSS = 1;
+    public static final int DAILY_PLANT_RESTOCK = 6;
 
-    public static final int PLANT_COUNT = 2;
-    public static final int CARNIVORE_COUNT = 5;
-    public static final int HERBIVORE_COUNT = 5;
+    public static final int PLANT_COUNT = 5;
+    public static final int CARNIVORE_COUNT = 3;
+    public static final int HERBIVORE_COUNT = 10;
 
     public static final int PLANT_START_ENERGY = 10;
     public static final int PLANT_MAX_ENERGY = 10;
@@ -27,9 +27,10 @@ public final class Config {
 
     public static final int HERBIVORE_SIGHT = 10;
     public static final int HERBIVORE_MOVEMENT = 5;
+    public static final int HERBIVORE_FEAR = 4;
     public static final int HERBIVORE_MAX_ENERGY = 20;
     public static final int HERBIVORE_START_ENERGY = 10;
-    public static final int HERBIVORE_ENERGY_TO_MATE = 10;
+    public static final int HERBIVORE_ENERGY_TO_MATE = 15;
     public static final int HERBIVORE_ENERGY_MATE_COST = 5;
 
     public enum OrganismType {
@@ -63,7 +64,7 @@ public final class Config {
     }
 
     public enum MoveType {
-        MOVE_TO, RUN_FROM, NO_MOVE;
+        MOVE_TO, NO_MOVE;
 
         PositionVector position;
 

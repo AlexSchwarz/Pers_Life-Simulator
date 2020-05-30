@@ -105,6 +105,7 @@ public class DomainReadable {
         return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 
+    /*
     public List<Space> getSpacesInActionProximity(PositionVector position) {
         List<Space> list = new ArrayList<>();
         int x = position.getX();
@@ -119,6 +120,7 @@ public class DomainReadable {
         }
         return list;
     }
+     */
 
     public PositionVector getPositionOfID(Identification id) throws InvalidIdentifierException {
         Objects.requireNonNull(id);
@@ -136,7 +138,7 @@ public class DomainReadable {
         if(searching) {
             throw new InvalidIdentifierException("No number in Domain matches " + id.toString());
         }
-        System.out.println("DOMAIN: Returning pos " + position + " for ID " + id.toString());
+        //System.out.println("DOMAIN: Returning pos " + position + " for ID " + id.toString());
         Objects.requireNonNull(position);
         return position;
     }
