@@ -1,33 +1,31 @@
 
-E
-java:S11486"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8Š™°•¤.
-]	java:S1258"<This block of commented-out lines of code should be removed.(ŽÉéþÿÿÿÿ8÷£©ß¤.
-W
-java:S1128	":Remove this unused import 'java.util.concurrent.TimeUnit'.(Æ™þ8þ±çß¤.
-^
-java:S10751"ARefactor your code to get this URI from a customizable parameter.(öÁÅÝ8÷£©ß¤.
-]	java:S125,"<This block of commented-out lines of code should be removed.(ä¡‡§ûÿÿÿÿ8ê§…¯¥.
-s
-java:S1450"WRemove the "dataFile" field and declare it as a local variable in the relevant methods.(³Ðà8þç…¯¥.
-E
-java:S1148"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8÷£©ß¤.
-Q
-java:S1068"/Remove this unused "environment" private field.(¼Êê¬ýÿÿÿÿ8þç…¯¥.
-X	java:S125!"<This block of commented-out lines of code should be removed.(å¶Þõ8—êƒ¯¥.
-¯
-java:S1130"ŒRemove the declaration of thrown exception 'simulator.model.exceptions.NoOrganismsLeftException', as it cannot be thrown from method's body.(‡ïäïüÿÿÿÿ8—êƒ¯¥.
-\	java:S8992";Do something with the "boolean" value returned by "delete".(öŒüÿÿÿÿ8÷£©ß¤.
-W	java:S125"<This block of commented-out lines of code should be removed.(ž¨ëQ8±ûó¹¤.
-Z	java:S106 "9Replace this use of System.out or System.err by a logger.(ä‰­©üÿÿÿÿ8÷£©ß¤.
-X	java:S125<"<This block of commented-out lines of code should be removed.(ˆ°³õ8þç…¯¥.
-W	java:S125'"<This block of commented-out lines of code should be removed.(Ä”šs8èÉ„¯¥.
-Z	java:S106"9Replace this use of System.out or System.err by a logger.(Ç•Üæøÿÿÿÿ8Þìñ£.
+c	java:S899P"BDo something with the "boolean" value returned by "createNewFile".(û§´Õúÿÿÿÿ8÷£©ß¤.
+]	java:S125"<This block of commented-out lines of code should be removed.(ŽìÒÑüÿÿÿÿ8ÂÏÌª¦.
+X	java:S125"<This block of commented-out lines of code should be removed.(¬œŠ“8«ÀÍª¦.
+\	java:S899N";Do something with the "boolean" value returned by "delete".(öŒüÿÿÿÿ8÷£©ß¤.
 p
-java:S40422"NUse "java.nio.file.Files#delete" here for better messages on error conditions.(öŒüÿÿÿÿ8÷£©ß¤.
-Z	java:S106"9Replace this use of System.out or System.err by a logger.(ÒíŽÈÿÿÿÿÿ8ƒÃ‡ñ£.
-G
-java:S1172&"*Remove this unused method parameter "pos".(Ø©ƒ—8èÉ„¯¥.
-U	java:S106"9Replace this use of System.out or System.err by a logger.(¨™„ò8ñíŒñ£.
-¸
-java:S1130"•Remove the declaration of thrown exception 'simulator.model.exceptions.EnvironmentCycleCompleteException', as it cannot be thrown from method's body.(‡ïäïüÿÿÿÿ8—êƒ¯¥.
-c	java:S8994"BDo something with the "boolean" value returned by "createNewFile".(û§´Õúÿÿÿÿ8÷£©ß¤.
+java:S4042N"NUse "java.nio.file.Files#delete" here for better messages on error conditions.(öŒüÿÿÿÿ8÷£©ß¤.
+X	java:S1251"<This block of commented-out lines of code should be removed.(ÓâüÈ8¹Ôª¦.
+a
+java:S2147*"DCombine this catch with the one at line 36, which has the same body.(ÇÞº’8¢ê»•¦.
+]	java:S125T"<This block of commented-out lines of code should be removed.(ŽÉéþÿÿÿÿ8÷£©ß¤.
+a
+java:S2147("DCombine this catch with the one at line 36, which has the same body.(…ÐÊ8ÔÃê¥.
+a
+java:S2147&"DCombine this catch with the one at line 36, which has the same body.(­äñÒ8‚óá¥.
+f
+java:S2147;"DCombine this catch with the one at line 57, which has the same body.(ƒÝªÞúÿÿÿÿ8Å—è€¦.
+]	java:S125X"<This block of commented-out lines of code should be removed.( Æ»Þøÿÿÿÿ8“€Íª¦.
+W	java:S125]"<This block of commented-out lines of code should be removed.(ð ØK8“€Íª¦.
+E
+java:S1148_"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8Ð¸î•¦.
+^
+java:S1075M"ARefactor your code to get this URI from a customizable parameter.(öÁÅÝ8÷£©ß¤.
+]	java:S125"<This block of commented-out lines of code should be removed.(¹Öˆ±øÿÿÿÿ8æ¨Íª¦.
+a
+java:S2147="DCombine this catch with the one at line 57, which has the same body.(­äñÒ8Å—è€¦.
+E
+java:S1148R"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8Š™°•¤.
+a
+java:S2147?"DCombine this catch with the one at line 57, which has the same body.(ÇÞº’8™¤¼•¦.
+]	java:S125"<This block of commented-out lines of code should be removed.(°âÑæøÿÿÿÿ8æ¨Íª¦.

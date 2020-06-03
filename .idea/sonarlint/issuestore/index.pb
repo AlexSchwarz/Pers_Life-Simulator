@@ -33,14 +33,6 @@ Z
 *src/simulator/model/organism/Organism.java,3\0\30f8adc2317b7e9d5b3b03ac3c920c92f4be5e9d
 R
 "src/simulator/model/Simulator.java,5\d\5ddcb5aa367c107f3ae13eea73e7b5472669e405
-G
-src/simulator/Main.java,2\6\26fb1c2add85db82c45a34f58b073614842aefe4
-G
-Pers_Life-Simulator.iml,4\4\44db56a33962ec3836888e2901b5ca15d206cdcb
-u
-Esrc/simulator/model/exceptions/EnvironmentCycleCompleteException.java,1\d\1d625b30d5d5b3e86c9fb5b6bd25db433c3b139c
-k
-;src/simulator/model/exceptions/NoAnimalActionException.java,9\e\9eb405cb5f85486ca07364a6084c13b7bf0757ac
 l
 <src/simulator/model/exceptions/NoOrganismsLeftException.java,2\6\263dd27eb5ac317194b1348ff0033513057059ee
 W
@@ -49,3 +41,15 @@ W
 'src/simulator/model/DomainReadable.java,7\7\776914681518ee29d81236e22ae817680e236cbf
 N
 src/simulator/model/Space.java,6\f\6fb2b6c8c2c91d38ad8f7bc4ce4a2242425b6fd6
+W
+'.idea/dictionaries/AlexanderPatrick.xml,2\c\2c5029ed85305ae15109d0a0adf3634de32cb561
+g
+7out/production/Pers_Life-Simulator/fxml/MainWindow.fxml,a\c\ac1deb0df05f0f8b2d269c06017912aee7d911c1
+q
+Aout/production/Pers_Life-Simulator/resources/fxml/MainWindow.fxml,f\9\f9610880807c7abeb60be49894f4c1717142e879
+W
+'src/simulator/model/Identification.java,f\2\f203fca6f5fe54fb05021eb57307ed8876759494
+J
+src/simulator/MainGUI.java,8\9\89e8489cce509049045fa06a68701bf7fa9be4af
+N
+src/simulator/MainConsole.java,2\9\29640d06e50b19c685aa8daaeaf7c2516a9d37d4

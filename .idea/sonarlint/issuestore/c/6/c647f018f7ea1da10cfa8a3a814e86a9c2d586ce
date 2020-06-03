@@ -1,9 +1,9 @@
 
-^
-java:S30665"<Lower the visibility of this setter or remove it altogether.(‹Ú«ùøÿÿÿÿ8ùëö¹¥.
-M
-java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8ùëö¹¥.
-^
-java:S3066C"<Lower the visibility of this setter or remove it altogether.(‹Ú«ùøÿÿÿÿ8µÁÙÃ¥.
 M
 java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8ùëö¹¥.
+^
+java:S30669"<Lower the visibility of this setter or remove it altogether.(‹Ú«ùøÿÿÿÿ8öãÕ“¦.
+^
+java:S3066G"<Lower the visibility of this setter or remove it altogether.(‹Ú«ùøÿÿÿÿ8µÁÙÃ¥.
+M
+java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8ùëö¹¥.

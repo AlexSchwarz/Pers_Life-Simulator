@@ -1,0 +1,20 @@
+
+l
+java:S1128"ORemove this unused import 'simulator.model.exceptions.SimulatorErrorException'.(¢¡©¬8ñÒ«é¥.
+T
+java:S1128
+"2Remove this unused import 'java.util.Collections'.(¢³ïÓþÿÿÿÿ8ª ˜â¥.
+]	java:S1254"<This block of commented-out lines of code should be removed.(ÅÉó’ûÿÿÿÿ8ŸÇÆª¦.
+U
+java:S1128"3Remove this unused import 'simulator.model.Config'.(×ÄÃüÿÿÿÿ8ê€Ýí¥.
+X	java:S125E"<This block of commented-out lines of code should be removed.(ˆ…Ó—8ŸÇÆª¦.
+]	java:S125("<This block of commented-out lines of code should be removed.(Ô”Ê¼øÿÿÿÿ8ˆ•Æª¦.
+Z
+java:S1128"8Remove this unused import 'java.util.stream.Collectors'.(Óóº´úÿÿÿÿ8óì³ì¥.
+X	java:S125+"<This block of commented-out lines of code should be removed.(„¦Îë8ˆ•Æª¦.
+X	java:S125A"<This block of commented-out lines of code should be removed.(šÓºƒ8ŸÇÆª¦.
+]	java:S125!"<This block of commented-out lines of code should be removed.(òÚ×þÿÿÿÿ8ˆ•Æª¦.
+X	java:S1251"<This block of commented-out lines of code should be removed.(§‹×Â8ŸÇÆª¦.
+X	java:S125$"<This block of commented-out lines of code should be removed.(ÿÍÒÍ8ˆ•Æª¦.
+n
+java:S1128"RRemove this unused import 'simulator.model.exceptions.InvalidIdentifierException'.(ëÇ¦H8É‡á“¦.

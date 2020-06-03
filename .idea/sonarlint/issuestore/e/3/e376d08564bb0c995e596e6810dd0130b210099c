@@ -1,5 +1,5 @@
 
-n
-java:S1128"RRemove this unused import 'simulator.model.exceptions.InvalidIdentifierException'.(ëÇ¦H8ö…ÝÃ¥.
-m
-java:S1128"PRemove this unused import 'simulator.model.exceptions.InvalidPositionException'.(é££Œ8ö…ÝÃ¥.
+]	java:S125/"<This block of commented-out lines of code should be removed.(¡·×èûÿÿÿÿ8¬úÄª¦.
+]	java:S125A"<This block of commented-out lines of code should be removed.(æ·¦÷þÿÿÿÿ8¬úÄª¦.
+]	java:S125b"<This block of commented-out lines of code should be removed.(¸×¸ìùÿÿÿÿ8ú¢Åª¦.
+X	java:S125S"<This block of commented-out lines of code should be removed.(×Ì½8ú¢Åª¦.
