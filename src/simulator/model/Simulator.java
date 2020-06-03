@@ -74,7 +74,7 @@ public class Simulator {
     }
 
     private void initDataFile() {
-        dataFile = new File("C:/Users/AlexanderPatrick/IdeaProjects/Pers_Life-Simulator/files/data.csv");
+        dataFile = new File("C:/Users/AlexanderPatrick/IdeaProjects/Pers_Life-Simulator-1.0-Grid/files/data.csv");
         dataFile.delete();
         try {
             dataFile.createNewFile();
