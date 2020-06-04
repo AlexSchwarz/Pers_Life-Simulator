@@ -43,10 +43,6 @@ N
 src/simulator/model/Space.java,6\f\6fb2b6c8c2c91d38ad8f7bc4ce4a2242425b6fd6
 W
 '.idea/dictionaries/AlexanderPatrick.xml,2\c\2c5029ed85305ae15109d0a0adf3634de32cb561
-g
-7out/production/Pers_Life-Simulator/fxml/MainWindow.fxml,a\c\ac1deb0df05f0f8b2d269c06017912aee7d911c1
-q
-Aout/production/Pers_Life-Simulator/resources/fxml/MainWindow.fxml,f\9\f9610880807c7abeb60be49894f4c1717142e879
 W
 'src/simulator/model/Identification.java,f\2\f203fca6f5fe54fb05021eb57307ed8876759494
 J

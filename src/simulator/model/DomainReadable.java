@@ -105,31 +105,14 @@ public class DomainReadable {
         return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 
-    /*
-    public List<Space> getSpacesInActionProximity(PositionVector position) {
-        List<Space> list = new ArrayList<>();
-        int x = position.getX();
-        int y = position.getY();
-        int range = Config.INTERACTION_RANGE;
-        for(int i = y - range; i <= y + range; i++) {
-            for(int j = x - range; j <= x + range; j++) {
-                if(i >= 0 && j >= 0 && i < size && j < size && !(i == y && j == x)) {
-                    list.add(domainArray[i][j]);
-                }
-            }
-        }
-        return list;
-    }
-     */
-
     public PositionVector getPositionOfID(Identification id) throws InvalidIdentifierException {
         Objects.requireNonNull(id);
         PositionVector position = null;
         boolean searching = true;
-        for(int i = 0; i < size; i++) {
-            for(int j = 0; j < size; j++) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 Space space = domainArray[i][j];
-                if(searching && space.getContent().equals(id)) {
+                if (searching && space.getContent().equals(id)) {
                     position = space.getPosition();
                     searching = false;
                 }
